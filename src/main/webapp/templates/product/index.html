@@ -65,7 +65,8 @@
                         <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" th:href="@{/add-to-cart/(id=${prod.id})}">Add to cart</a>
+                        <a th:href="@{/add-to-cart/(id=${prod.id})}">
+                            <img src="/static/img/add_cart.png" onmouseover="this.src='/static/img/add_cart_on_mouse.png';" onmouseout="this.src='/static/img/add_cart.png';"  alt="Add to cart"/></a>
                     </div>
                 </div>
             </div>
