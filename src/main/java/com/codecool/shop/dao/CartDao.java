@@ -7,5 +7,6 @@ import java.util.Map;
 public interface CartDao {
     void add(Product product);
     void remove(Product product);
+
     Map<Product, Integer> getAll();
 }
