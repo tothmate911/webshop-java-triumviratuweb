@@ -4,13 +4,12 @@
 
 <div class="text-center header" th:fragment="copy">
     <div class="header_image"><img src="/static/img/header_title2.png" alt=""></div>
-
-    <!--    <div class="shopping-cart">-->
-    <!--        <p>Shopping cart item number: </p>-->
-    <!--        <p th:text="${cartSize}"></p>-->
-    <!--    </div>-->
-
+    <div class="buttons">
+        <div class="home-button" onmouseover="this.style='background-color: aqua;'" onmouseout="this.style='background-color: royalblue'"><strong>Home</strong></div>
+        <div class="shopping-cart"  onmouseover="this.style='background-color: aqua;'" onmouseout="this.style='background-color: royalblue'" th:style="${cartList.size() == 0 ? 'color: black': 'color: red'}">
+            <i class="fa fa-shopping-cart" th:if="${cartList.size() == 0}"></i>
+            <i class="fa fa-shopping-cart" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}" th:style="'color: red; font-weight: bold'"></i>
+        </div></div>
 </div>
-
 </body>
 </html>

@@ -110,4 +110,34 @@ body{
 .card-text{
     alignment: center;
 }
+.buttons{
+    border-radius: 20px;
+    width: 200px;
+    height: 40px;
+    display: inline-grid;
+    grid-template-columns: 50% 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: royalblue;
+    align-content: center;
+}
+.home-button{
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 24px;
+    border-right-width: 2px;
+    border-right-style: solid;
+}
+#home-button-on-mouse{
+    font-size: 24px;
+    border-right-width: 2px;
+    border-right-style: solid;
+    background-color: aqua;
+}
+.shopping-cart{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    font-size: 28px;
+}
 
