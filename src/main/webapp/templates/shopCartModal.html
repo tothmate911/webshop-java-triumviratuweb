@@ -3,15 +3,14 @@
 <body>
 
 <div id="cartModal" class="cartModal" th:fragment="copy">
-    <div th:each="cartProd,iterStat : ${cartList}">
-        <img class="" height="50px" width="50px" src="http://placehold.it/400x250/000/fff"
-        th:attr="src='/static/img/product_' + ${cartProd.getKey().id} + '.jpg'" alt=""/>
-        <h3 th:text="${cartProd.getKey().name}">Name</h3>
-        <h4 th:text="${cartProd.getKey().price}">Price</h4>
-        <h4 th:text="${cartProd.getKey().defaultCurrency}">$</h4>
-        <p th:text="${cartProd.getValue()}">0</p>
+    <div class="modalContent" th:each="cartProd,iterStat : ${cartList}">
+        <div class="productImage"><img height="100px" width="100px" src="http://placehold.it/400x250/000/fff"
+                  th:attr="src='/static/img/product_' + ${cartProd.getKey().id} + '.jpg'" alt=""/></div>
+        <div class="productName text-center center" th:text="${cartProd.getKey().name}">Name</div>
+        <div class="productPrice text-center center" th:text="${cartProd.getKey().price}">Price</div>
+        <div class="productQuantity text-center center" th:text="${cartProd.getValue()} + ' pc'">0</div>
     </div>
-    <button id="cartClose">Close</button>
+    <img id="cartClose" class="closeModal" src="/static/img/exitModal.png" alt="exit" onmouseover="this.src='/static/img/exitModalOnMouse.png';" onmouseout="this.src='/static/img/exitModal.png';">
 
     <script>
         const modal = document.getElementById("cartModal");

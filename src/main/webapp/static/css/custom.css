@@ -144,13 +144,55 @@ a:link, a:visited{
     color: black;
 }
 .cartModal{
+    border-radius: 30px;
     background-color: darkseagreen;
-    display: none;
+    /*display: none;*/
     position: fixed;
     top: 25%;
     left: 25%;
-    width: 500px;
+    width: 800px;
     height: 500px;
     z-index: 2;
     overflow: auto;
+}
+.closeModal {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    float: right;
+}
+.closeModal:hover{
+    cursor: pointer;
+}
+.modalContent{
+    width: 80%;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-width: 3px;
+    border-style: double;
+    display: grid;
+    grid-template-columns: 20% 60% 10% 10%;
+    grid-template-rows: 50% 50%;
+}
+.productImage{
+    grid-row: 1 / span 2;
+}
+.productName{
+    grid-column: 2;
+    grid-row: 1;
+}
+.productPrice{
+    grid-column: 2;
+    grid-row: 2;
+}
+.productQuantity{
+    vertical-align: center;
+    grid-column: 3;
+    grid-row: 1 / span 2
+}
+.center{
+    margin: auto;
+    width: 50%;
 }
