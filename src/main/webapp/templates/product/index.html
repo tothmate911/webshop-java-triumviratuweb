@@ -32,14 +32,7 @@
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Fantasy WebShop</h1>
-    <div class="shopping-cart">
-        <p>Shopping cart item number: </p>
-        <p th:text="${cartSize}"></p>
-    </div>
-
-</div>
+<div th:replace="header.html :: copy"></div>
 
 <div class="container">
     <div class="card">
