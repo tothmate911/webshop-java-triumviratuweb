@@ -4,10 +4,10 @@
 .thumbnail
 {
     margin-bottom: 20px;
-    padding: 0px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
+    padding: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
 .thumbnail img
 {
@@ -31,11 +31,11 @@
 }
 .item.list-group-item .thumbnail
 {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .item.list-group-item .caption
 {
-    padding: 9px 9px 0px 9px;
+    padding: 9px 9px 0 9px;
 }
 .item.list-group-item:nth-of-type(odd)
 {
@@ -131,6 +131,9 @@ body{
     font-style: normal;
     color: black;
 }
+.home-button:hover, .shopping-cart:hover{
+    background-color: aqua;
+}
 .shopping-cart{
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -140,4 +143,14 @@ a:link, a:visited{
     text-decoration: none;
     color: black;
 }
-
+.cartModal{
+    background-color: darkseagreen;
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 500px;
+    height: 500px;
+    z-index: 2;
+    overflow: auto;
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div id="cartModal" class="cartModal" th:fragment="copy">
+    <div th:each="cartProd,iterStat : ${cartList}">
+        <img class="" height="50px" width="50px" src="http://placehold.it/400x250/000/fff"
+        th:attr="src='/static/img/product_' + ${cartProd.getKey().id} + '.jpg'" alt=""/>
+        <h3 th:text="${cartProd.getKey().name}">Name</h3>
+        <h4 th:text="${cartProd.getKey().price}">Price</h4>
+        <h4 th:text="${cartProd.getKey().defaultCurrency}">$</h4>
+        <p th:text="${cartProd.getValue()}">0</p>
+    </div>
+    <button id="cartClose">Close</button>
+
+    <script>
+        const modal = document.getElementById("cartModal");
+        const openButton = document.getElementById("cartOpen");
+        const closeButton = document.getElementById("cartClose");
+        const container = document.getElementById("container");
+
+        openButton.onclick = function () {
+            modal.style.display = "block";
+            container.style.pointerEvents = "none";
+            container.style.opacity = "0.5";
+        }
+
+        closeButton.onclick = function () {
+            modal.style.display = "none";
+            container.style.opacity = "1";
+            container.style.pointerEvents = "auto";
+        }
+    </script>
+</div>
+
+</body>
+</html>
