@@ -62,7 +62,7 @@
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                        <p class="lead text-center" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
                         <a th:href="@{/add-to-cart/(id=${prod.id})}">

@@ -69,7 +69,7 @@ body{
     top: 0;
     width: 100%;
     z-index: 1;
-    height: 120px;
+    height: 140px;
     background-image: url("/static/img/header_background.jpg");
     background-size: 100% 100%;
 }
@@ -90,5 +90,24 @@ body{
 }
 .card{
     margin-top: 20px;
+}
+.card-body{
+    display: inline-grid;
+    grid-template-columns: 50% 50%;
+}
+.lead{
+    font-family: "Stencil Std", Gadget, fantasy;
+    font-size: 20px;
+    letter-spacing: 0;
+    word-spacing: 0;
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+.card-text{
+    alignment: center;
 }
 
