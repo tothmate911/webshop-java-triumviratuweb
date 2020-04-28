@@ -39,7 +39,7 @@
         <form>
             <select name="category">
                 <option value="All">All</option>
-                <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.name}">Category Name</option>
+                <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.id}">Category Name</option>
             </select>
             <button type="submit">Choose</button>
         </form>
