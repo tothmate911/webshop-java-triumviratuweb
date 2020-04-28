@@ -1,8 +1,10 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
@@ -36,6 +38,8 @@ public class ProductController extends HttpServlet {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        CartDao cart = CartDaoMem.getInstance();
+
         context.setVariable("category", productCategoryDataStore.getAll());
         context.setVariable("supplier", supplierDataStore.getAll());
 
@@ -56,7 +60,7 @@ public class ProductController extends HttpServlet {
             }
             List<Product> finalFilteredList = new ArrayList<>(productByCategory);
             finalFilteredList.retainAll(productBySupplier);
-            context.setVariable("products", finalFilteredList);
+            context.setVariable(    "products", finalFilteredList);
         } else {
             context.setVariable("products", productDataStore.getAll());
         }
@@ -67,8 +71,10 @@ public class ProductController extends HttpServlet {
         // params.put("category", productCategoryDataStore.find(1));
         // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         // context.setVariables(params);
+
+        context.setVariable("cart", cart.getAll());
+
         engine.process("product/index.html", context, resp.getWriter());
 
     }
-
 }
