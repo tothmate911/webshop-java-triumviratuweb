@@ -9,4 +9,5 @@ public interface CartDao {
     void remove(Product product);
     Map<Product, Integer> getAll();
     int getSize();
+    float getFullPrice();
 }

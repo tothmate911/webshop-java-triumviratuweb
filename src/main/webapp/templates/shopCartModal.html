@@ -6,12 +6,18 @@
     <div class="modalContent" th:each="cartProd,iterStat : ${cartList}">
         <div class="productImage"><img height="100px" width="100px" src="http://placehold.it/400x250/000/fff"
                   th:attr="src='/static/img/product_' + ${cartProd.getKey().id} + '.jpg'" alt=""/></div>
-        <div class="productName text-center center" th:text="${cartProd.getKey().name}">Name</div>
-        <div class="productPrice text-center center" th:text="${cartProd.getKey().price}">Price</div>
-        <div class="productQuantity text-center center" th:text="${cartProd.getValue()} + ' pc'">0</div>
+        <div class="productName text-center center defaulFontSize" th:text="${cartProd.getKey().name}">Name</div>
+        <div class="productPrice text-center center defaulFontSize" th:text="${cartProd.getKey().price}">Price</div>
+        <div class="productQuantity text-center center defaulFontSize" th:text="${cartProd.getValue()}">0</div>
+        <div><img class="changeProductQuantity text-center center" src="/static/img/addProduct.png" alt="add" onmouseover="this.src='/static/img/addProductOnMouse.png';" onmouseout="this.src='/static/img/addProduct.png';"></div>
+        <div><img class="changeProductQuantity text-center center" src="/static/img/deleteProduct.png" alt="remove" onmouseover="this.src='/static/img/deleteProductOnMouse.png';" onmouseout="this.src='/static/img/deleteProduct.png';"></div>
     </div>
     <img id="cartClose" class="closeModal" src="/static/img/exitModal.png" alt="exit" onmouseover="this.src='/static/img/exitModalOnMouse.png';" onmouseout="this.src='/static/img/exitModal.png';">
-
+    <div class="fullPrice center" th:text="'Full Price: ' + ${cartFullPrice} + ' $'">0</div>
+    <div class="cartButtons">
+        <div class="text-center"><img class="buttonSize text-center" src="/static/img/checkButton.png" alt="check" onmouseover="this.src='/static/img/checkButtonOnMouse.png';" onmouseout="this.src='/static/img/checkButton.png';"></div>
+        <div class="text-center"><img class="buttonSize text-center" src="/static/img/buyButton.png" alt="check" onmouseover="this.src='/static/img/buyButtonOnMouse.png';" onmouseout="this.src='/static/img/buyButton.png';"></div>
+    </div>
     <script>
         const modal = document.getElementById("cartModal");
         const openButton = document.getElementById("cartOpen");
