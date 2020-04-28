@@ -54,13 +54,13 @@ public class ProductController extends HttpServlet {
             } else {
                 productBySupplier = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)));
             }
-                productByCategory.retainAll(productBySupplier);
-            context.setVariable("products", productByCategory);
+            List<Product> finalFilteredList= new ArrayList<>(productByCategory);
+            finalFilteredList.retainAll(productBySupplier);
+            context.setVariable("products", finalFilteredList);
         }
         else{
             context.setVariable("products",productDataStore.getAll());
         }
-        System.out.println(productByCategory.toString());
 
         //context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         // // Alternative setting of the template context
@@ -69,6 +69,7 @@ public class ProductController extends HttpServlet {
         // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         // context.setVariables(params);
         engine.process("product/index.html", context, resp.getWriter());
+
     }
 
 }
