@@ -39,14 +39,14 @@ public class ProductController extends HttpServlet {
         context.setVariable("category", productCategoryDataStore.getAll());
         context.setVariable("supplier", supplierDataStore.getAll());
 
-        List<Product> productByCatergory = new ArrayList<>();
+        List<Product> productByCategory = new ArrayList<>();
         List<Product> productBySupplier = new ArrayList<>();
 
         if (categoryType != null && supplierType != null) {
             if (categoryType.equals("All")) {
-                productByCatergory = productDataStore.getAll();
+                productByCategory = productDataStore.getAll();
             } else {
-                productByCatergory = productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryType)));
+                productByCategory = productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryType)));
             }
 
             if (supplierType.equals("All")) {
@@ -54,13 +54,13 @@ public class ProductController extends HttpServlet {
             } else {
                 productBySupplier = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)));
             }
-
-            context.setVariable("products", productByCatergory.retainAll(productBySupplier));
+                productByCategory.retainAll(productBySupplier);
+            context.setVariable("products", productByCategory);
         }
         else{
             context.setVariable("products",productDataStore.getAll());
         }
-        System.out.println(productByCatergory.toString());
+        System.out.println(productByCategory.toString());
 
         //context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         // // Alternative setting of the template context
