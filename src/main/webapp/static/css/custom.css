@@ -61,7 +61,7 @@
     margin: 0 0 11px;
 }
 body{
-    background-image: url("/static/img/fantasyshop.jpg");
+    background-image: url("/static/img/mainBackground.jpg");
     background-size: 100% 100%;
 }
 .header{
@@ -144,16 +144,17 @@ a:link, a:visited{
     color: black;
 }
 .cartModal{
+    background-image: url("/static/img/fantasyshop.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     border-radius: 30px;
-    background-color: darkseagreen;
-    /*display: none;*/
+    display: none;
     position: fixed;
     top: 25%;
     left: 25%;
     width: 800px;
     height: 500px;
     z-index: 2;
-    overflow: auto;
 }
 .closeModal {
     width: 40px;
@@ -166,17 +167,25 @@ a:link, a:visited{
 .closeModal:hover{
     cursor: pointer;
 }
-.modalContent{
+.productList{
     width: 80%;
+    height: 70%;
+    overflow: auto;
     margin-top: 10px;
     margin-left: 10px;
+}
+.modalContent{
+    border-radius: 20px;
+    margin-top: 5px;
+    background-color: darkseagreen;
     border-width: 3px;
     border-style: double;
     display: grid;
-    grid-template-columns: 20% 50% 20% 10%;
+    grid-template-columns: 15% 72% 5% 8%;
     grid-template-rows: 50% 50%;
 }
 .productImage{
+    margin-left: 12px;
     grid-row: 1 / span 2;
 }
 .productName{
@@ -196,8 +205,8 @@ a:link, a:visited{
     margin: auto;
     width: 50%;
 }
-.defaulFontSize{
-    font-size: 25px;
+.defaultFontSize{
+    font-size: 20px;
     font-weight: bold;
 }
 .changeProductQuantity{
@@ -217,10 +226,13 @@ a:link, a:visited{
     height: 60px;
 }
 .fullPrice{
+    background-color: darkseagreen;
+    border-radius: 20px;
     font-weight: bold;
     font-size: 24px;
     position: absolute;
     bottom: 80px;
     left: 10px;
+    width: 30%;
 }
 
