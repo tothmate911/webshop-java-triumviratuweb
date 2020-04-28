@@ -128,16 +128,16 @@ body{
     font-size: 24px;
     border-right-width: 2px;
     border-right-style: solid;
-}
-#home-button-on-mouse{
-    font-size: 24px;
-    border-right-width: 2px;
-    border-right-style: solid;
-    background-color: aqua;
+    font-style: normal;
+    color: black;
 }
 .shopping-cart{
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     font-size: 28px;
+}
+a:link, a:visited{
+    text-decoration: none;
+    color: black;
 }
 
