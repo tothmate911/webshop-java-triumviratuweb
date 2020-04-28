@@ -10,10 +10,12 @@ import java.util.Map;
 public class CartDaoMem implements CartDao {
     private Map<Product, Integer> cartMap = new HashMap<>();
     private static CartDaoMem instance = null;
+    private int cartSize = 0;
 
     @Override
     public void add(Product product) {
         cartMap.put(product, cartMap.getOrDefault(product, 0) + 1);
+        cartSize++;
     }
 
     @Override
@@ -25,6 +27,7 @@ public class CartDaoMem implements CartDao {
         } else {
             cartMap.remove(product);
         }
+        cartSize--;
     }
 
     public static CartDaoMem getInstance() {
@@ -37,5 +40,10 @@ public class CartDaoMem implements CartDao {
     @Override
     public Map<Product, Integer> getAll() {
         return cartMap;
+    }
+
+    @Override
+    public int getSize() {
+        return cartSize;
     }
 }

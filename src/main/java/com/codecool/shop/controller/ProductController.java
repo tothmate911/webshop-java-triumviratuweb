@@ -73,6 +73,7 @@ public class ProductController extends HttpServlet {
         // context.setVariables(params);
 
         context.setVariable("cart", cart.getAll());
+        context.setVariable("cartSize", cart.getSize());
 
         engine.process("product/index.html", context, resp.getWriter());
 
