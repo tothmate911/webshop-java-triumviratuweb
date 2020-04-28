@@ -54,12 +54,11 @@ public class ProductController extends HttpServlet {
             } else {
                 productBySupplier = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)));
             }
-            List<Product> finalFilteredList= new ArrayList<>(productByCategory);
+            List<Product> finalFilteredList = new ArrayList<>(productByCategory);
             finalFilteredList.retainAll(productBySupplier);
             context.setVariable("products", finalFilteredList);
-        }
-        else{
-            context.setVariable("products",productDataStore.getAll());
+        } else {
+            context.setVariable("products", productDataStore.getAll());
         }
 
         //context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
