@@ -38,8 +38,12 @@
     <div class="card">
         <form>
             <select name="category">
-                <option value="All">All</option>
+                <option value="All">All category</option>
                 <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.id}">Category Name</option>
+            </select>
+            <select name="supplier">
+                <option value="All">All supplier</option>
+                <option th:each="sup,iterStat:${supplier}" th:text="${sup.name}" th:value="${sup.id}">Supplier name</option>
             </select>
             <button type="submit">Choose</button>
         </form>
