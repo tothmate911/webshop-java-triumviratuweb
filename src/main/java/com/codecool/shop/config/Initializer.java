@@ -45,7 +45,7 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Alduril", 300, "USD", "Be a great king like Aragorn with his magical sword!", swords, fantasy));
         productDataStore.add(new Product("Millenium Falcon", 1000, "USD", "Maybe old, maybe not the prettiest, but sure fly like hell!", vehicle, fantasy));
         productDataStore.add(new Product("Enterprise",980.50f , "USD", "Go boldly where no man has ever gone before with you own spaceship!", vehicle, sciFi));
-        productDataStore.add(new Product("Götterdammerung", 760, "USD", "Don't have to be a dictator to look good in this!", vehicle, sciFi));
+        productDataStore.add(new Product("Gotterdammerung", 760, "USD", "Don't have to be a dictator to look good in this!", vehicle, sciFi));
         productDataStore.add(new Product("The Good Samaritan", 278, "USD", "One HELL of a kickback!", guns, fantasy));
         productDataStore.add(new Product("Usopp's Kabuto Slingshot", 20, "USD", "There is literally only One Piece we have of this!", guns, fantasy));
         productDataStore.add(new Product("Han Solo's Blaster", 430.50f, "USD", "Easily concealed under the table", guns, fantasy));
