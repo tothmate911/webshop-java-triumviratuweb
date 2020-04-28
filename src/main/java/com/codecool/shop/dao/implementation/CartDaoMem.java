@@ -44,6 +44,7 @@ public class CartDaoMem implements CartDao {
 
     @Override
     public int getSize() {
+        System.out.println(cartSize);
         return cartSize;
     }
 }
