@@ -41,7 +41,7 @@ public class Initializer implements ServletContextListener {
 
         //setting up products and printing it
         productDataStore.add(new Product("Kylo Ren Lightsaber", 500f, "USD", "You can be the envoy of the dark side with this beauty!", swords, fantasy));
-        productDataStore.add(new Product("Legend of Zelda Ocarine of Time! Master Sword", 99.99f, "USD", "Can't miss sword from your Zelda Collection", swords, fantasy));
+        productDataStore.add(new Product("Zeldas Master Sword", 99.99f, "USD", "Can't miss sword from your Zelda Collection", swords, fantasy));
         productDataStore.add(new Product("Alduril", 300, "USD", "Be a great king like Aragorn with his magical sword!", swords, fantasy));
         productDataStore.add(new Product("Millenium Falcon", 1000, "USD", "Maybe old, maybe not the prettiest, but sure fly like hell!", vehicle, fantasy));
         productDataStore.add(new Product("Enterprise",980.50f , "USD", "Go boldly where no man has ever gone before with you own spaceship!", vehicle, sciFi));

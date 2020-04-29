@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <meta name="author" content="Codecool" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <title>Codecool Shop</title>
 
@@ -14,36 +14,40 @@
 
     <!--Latest compiled and minified Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
 
     <!-- Latest compiled and minified CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- End of Bootstrap components -->
 
-    <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
 </head>
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Fantasy WebShop</h1>
-</div>
+<div th:replace="header.html :: copy"></div>
 
-<div class="container">
+<div id="container" class="container">
     <div class="card">
         <form>
             <select name="category">
                 <option value="All">All category</option>
-                <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.id}">Category Name</option>
+                <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.id}">Category Name
+                </option>
             </select>
             <select name="supplier">
                 <option value="All">All supplier</option>
-                <option th:each="sup,iterStat:${supplier}" th:text="${sup.name}" th:value="${sup.id}">Supplier name</option>
+                <option th:each="sup,iterStat:${supplier}" th:text="${sup.name}" th:value="${sup.id}">Supplier name
+                </option>
             </select>
             <button type="submit">Choose</button>
         </form>
@@ -52,17 +56,19 @@
     <div id="products" class="row">
         <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
             <div class="card">
-                <img class="" height="200px" width="100%" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
+                <img class="" height="200px" width="100%" src="http://placehold.it/400x250/000/fff"
+                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
                 <div class="card-header">
                     <h4 class="card-title" th:text="${prod.name}">Product name</h4>
                     <p class="card-text" th:text="${prod.description}">Product description... </p>
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                        <p class="lead text-center center" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <a th:href="@{/add-to-cart/(id=${prod.id})}">
+                            <img src="/static/img/add_cart.png" onmouseover="this.src='/static/img/add_cart_on_mouse.png';" onmouseout="this.src='/static/img/add_cart.png';"  alt="Add to cart"/></a>
                     </div>
                 </div>
             </div>
@@ -70,7 +76,7 @@
     </div>
 
 </div>
-
+<div th:replace="shopCartModal.html :: copy"></div>
 <div th:replace="footer.html :: copy"></div>
 
 </body>
