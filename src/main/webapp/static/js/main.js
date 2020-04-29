@@ -1,21 +1,16 @@
 function addElement(id) {
-    let sendData = {
-        "id": id
-    };
-    addCounter(id)
-    // api_get("/addToCart")
+    api_get("/cartEdit/?id=" + id + "&type=add", addCounter(id));
 }
 
 function removeElement(id) {
-    let sendData = {
-        "id": id
-    }
-    removeCounter(id)
+    api_get("/cartEdit/?id=" + id + "&type=remove", removeCounter(id));
 }
 
 function addCounter(id) {
     let productCount = document.getElementById("count" + id);
     productCount.innerText = (parseInt(productCount.innerText) + 1).toString();
+    let cartCount = document.getElementById("cartCounter");
+    cartCount.innerText = (parseInt(cartCount.innerText) + 1).toString();
 }
 
 function removeCounter(id) {
@@ -24,19 +19,20 @@ function removeCounter(id) {
     if (productCount.innerText === "0"){
         document.getElementById(id).remove();
     }
+    let cartCount = document.getElementById("cartCounter");
+    cartCount.innerText = (parseInt(cartCount.innerText) - 1).toString();
+    if (productCount.innerText === "0"){
+        cartCount.innerText = "";
+        document.getElementById("cartOpen").style.color = "black";
+    }
 }
 
-
-
-
-
-function api_get(url, callback) {
+function api_get(url) {
     fetch(url, {
         method: 'GET',
         credentials: 'same-origin'
-    })
-        .then(response => response.json())
-        .then(json_response => callback(json_response));
+    }).then(r => {})
+
 }
 
 function api_post(url, data, callback) {
