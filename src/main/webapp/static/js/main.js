@@ -6,6 +6,9 @@ function removeElement(id) {
     api_get("/cartEdit/?id=" + id + "&type=remove", removeCounter(id));
 }
 
+function addToCart(id) {
+    api_get("/add-to-cart/?id=" + id)
+}
 function addCounter(id) {
     let productCount = document.getElementById("count" + id);
     productCount.innerText = (parseInt(productCount.innerText) + 1).toString();
