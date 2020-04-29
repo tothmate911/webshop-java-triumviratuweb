@@ -167,6 +167,15 @@ a:link, a:visited{
 .closeModal:hover{
     cursor: pointer;
 }
+.changeProductQuantity:hover{
+    cursor: pointer;
+}
+.buttonSize:hover{
+    cursor: pointer;
+}
+.shopping-cart:hover{
+    cursor: pointer;
+}
 .productList{
     width: 80%;
     height: 70%;
