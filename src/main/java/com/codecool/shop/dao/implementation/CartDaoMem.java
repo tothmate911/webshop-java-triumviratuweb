@@ -51,9 +51,8 @@ public class CartDaoMem implements CartDao {
     public float getFullPrice(){
         float fullPrice = 0;
         for (Map.Entry<Product, Integer> entry: cartMap.entrySet()){
-            fullPrice = entry.getKey().getFloatPrice() * entry.getValue();
+            fullPrice += entry.getKey().getFloatPrice() * entry.getValue();
         }
-        System.out.println(fullPrice);
         return fullPrice;
     }
 }
