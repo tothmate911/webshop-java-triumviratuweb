@@ -44,13 +44,15 @@
     <div class="card">
         <form>
             <select name="category">
-                <option value="All">All category</option>
-                <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.id}">Category Name
+                <option value="All" th:selected="${categoryIdFiltered == -1}">All category</option>
+                <option th:each="cat,iterStat : ${category}" th:text="${cat.name}" th:value="${cat.id}"
+                        th:selected="${cat.id == categoryIdFiltered}">Category Name
                 </option>
             </select>
             <select name="supplier">
-                <option value="All">All supplier</option>
-                <option th:each="sup,iterStat:${supplier}" th:text="${sup.name}" th:value="${sup.id}">Supplier name
+                <option value="All" th:selected="${supplierIdFiltered == -1}">All supplier</option>
+                <option th:each="sup,iterStat:${supplier}" th:text="${sup.name}" th:value="${sup.id}"
+                        th:selected="${sup.id == supplierIdFiltered}">Supplier name
                 </option>
             </select>
             <button type="submit">Choose</button>
