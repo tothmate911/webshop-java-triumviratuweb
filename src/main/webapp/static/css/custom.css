@@ -175,7 +175,8 @@ a:link, a:visited{
     margin-left: 10px;
 }
 .modalContent{
-    border-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     margin-top: 5px;
     background-color: darkseagreen;
     border-width: 3px;
@@ -185,7 +186,6 @@ a:link, a:visited{
     grid-template-rows: 50% 50%;
 }
 .productImage{
-    margin-left: 12px;
     grid-row: 1 / span 2;
 }
 .productName{
