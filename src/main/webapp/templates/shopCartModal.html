@@ -2,8 +2,8 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div id="cartModal" class="cartModal" th:fragment="copy">
-    <div class="productList">
+<div id="cartModal" class="cartModal hide" th:fragment="copy">
+    <div id="productList" class="productList">
         <div class="modalContent" th:attr="id=${cartProd.getKey().id}" th:each="cartProd,iterStat : ${cartList}">
             <div class="productImage"><img height="100px" width="100px" src="http://placehold.it/400x250/000/fff"
                                            th:attr="src='/static/img/product_' + ${cartProd.getKey().id} + '.jpg'" alt=""/></div>
@@ -28,7 +28,7 @@
         const container = document.getElementById("container");
 
         openButton.onclick = function () {
-            window.location.reload();
+            // window.location.reload();
             modal.classList.remove("hide");
             modal.classList.add("display");
             container.style.pointerEvents = "none";

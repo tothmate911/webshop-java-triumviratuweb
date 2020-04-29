@@ -72,8 +72,8 @@
                     <div class="card-text">
                         <p class="lead text-center center" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
-                    <div class="card-text add-button">
-                        <img th:onclick="|addToCart(${prod.id})|" src="/static/img/add_cart.png"
+                    <div th:attr="data-name=${prod.name}, data-price=${prod.price}, id='productData' + ${prod.id}, data-float-price=${prod.getFloatPrice()}" class="card-text add-button">
+                        <img th:onclick="|addToCart(${prod.id}, ${prod.getFloatPrice()})|" src="/static/img/add_cart.png"
                              onmouseover="this.src='/static/img/add_cart_on_mouse.png';"
                              onmouseout="this.src='/static/img/add_cart.png';" alt="Add to cart"/>
                     </div>
