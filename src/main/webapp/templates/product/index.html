@@ -64,7 +64,6 @@
                     <h4 class="card-title" th:text="${prod.name}">Product name</h4>
                     <p class="card-text" th:text="${prod.description}">Product description... </p>
                 </div>
-                <button th:attr="data-id=${prod.id}" onclick="addElement()">ADD</button>
                 <div class="card-body">
                     <div class="card-text">
                         <p class="lead text-center center" th:text="${prod.getPrice()}">100 USD</p>
