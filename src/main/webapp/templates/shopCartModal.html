@@ -10,13 +10,13 @@
             <div class="productName text-center center defaultFontSize" th:text="${cartProd.getKey().name}">Name</div>
             <div class="productPrice text-center center defaultFontSize" th:text="${cartProd.getKey().price}">Price</div>
             <div class="productQuantity text-center center defaultFontSize" th:attr="id='count' + ${cartProd.getKey().id}" th:text="${cartProd.getValue()}">0</div>
-            <div><img th:onclick="|addElement(${cartProd.getKey().id})|" class="changeProductQuantity text-center center" src="/static/img/addProduct.png" alt="add" onmouseover="this.src='/static/img/addProductOnMouse.png';" onmouseout="this.src='/static/img/addProduct.png';"></div>
-            <div><img th:onclick="|removeElement(${cartProd.getKey().id})|" class="changeProductQuantity text-center center" src="/static/img/deleteProduct.png" alt="remove" onmouseover="this.src='/static/img/deleteProductOnMouse.png';" onmouseout="this.src='/static/img/deleteProduct.png';"></div>
+            <div><img th:onclick="|addElement(${cartProd.getKey().id}, ${cartProd.getKey().getFloatPrice()})|" class="changeProductQuantity text-center center" src="/static/img/addProduct.png" alt="add" onmouseover="this.src='/static/img/addProductOnMouse.png';" onmouseout="this.src='/static/img/addProduct.png';"></div>
+            <div><img th:onclick="|removeElement(${cartProd.getKey().id}, ${cartProd.getKey().getFloatPrice()})|" class="changeProductQuantity text-center center" src="/static/img/deleteProduct.png" alt="remove" onmouseover="this.src='/static/img/deleteProductOnMouse.png';" onmouseout="this.src='/static/img/deleteProduct.png';"></div>
         </div>
     </div>
 
     <img id="cartClose" class="closeModal" src="/static/img/exitModal.png" alt="exit" onmouseover="this.src='/static/img/exitModalOnMouse.png';" onmouseout="this.src='/static/img/exitModal.png';">
-    <div class="fullPrice center text-center" th:text="'Full Price: ' + ${cartFullPrice} + ' $'">0</div>
+    <div id="fullPrice" th:attr="data-full-price=${cartFullPrice}" class="fullPrice center text-center" th:text="'Full Price: ' + ${cartFullPrice} + ' $'">0</div>
     <div class="cartButtons">
         <div class="text-center"><img class="buttonSize text-center" src="/static/img/checkButton.png" alt="check" onmouseover="this.src='/static/img/checkButtonOnMouse.png';" onmouseout="this.src='/static/img/checkButton.png';"></div>
         <div class="text-center"><img class="buttonSize text-center" src="/static/img/buyButton.png" alt="check" onmouseover="this.src='/static/img/buyButtonOnMouse.png';" onmouseout="this.src='/static/img/buyButton.png';"></div>
@@ -28,6 +28,7 @@
         const container = document.getElementById("container");
 
         openButton.onclick = function () {
+            // window.location.reload();
             modal.style.display = "block";
             container.style.pointerEvents = "none";
             container.style.opacity = "0.5";

@@ -43,8 +43,8 @@ public class ProductController extends HttpServlet {
         context.setVariable("category", productCategoryDataStore.getAll());
         context.setVariable("supplier", supplierDataStore.getAll());
 
-        List<Product> productByCategory = new ArrayList<>();
-        List<Product> productBySupplier = new ArrayList<>();
+        List<Product> productByCategory;
+        List<Product> productBySupplier;
 
         if (categoryType != null && supplierType != null) {
             if (categoryType.equals("All")) {

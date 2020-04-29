@@ -1,13 +1,20 @@
-function addElement(id) {
-    api_get("/cartEdit/?id=" + id + "&type=add", addCounter(id));
+function addElement(id, price) {
+    api_get("/cartEdit/?id=" + id + "&type=add");
+    addCounter(id);
+    // addCartCounter()
+    changeFullPrice(price, true)
 }
 
-function removeElement(id) {
-    api_get("/cartEdit/?id=" + id + "&type=remove", removeCounter(id));
+function removeElement(id, price) {
+    api_get("/cartEdit/?id=" + id + "&type=remove");
+    removeCounter(id);
+    removeCartCounter();
+    changeFullPrice(price, false)
 }
 
 function addToCart(id) {
     api_get("/add-to-cart/?id=" + id)
+    addCartCounter();
 }
 
 function addCounter(id) {
@@ -23,11 +30,45 @@ function removeCounter(id) {
     if (productCount.innerText === "0") {
         document.getElementById(id).remove();
     }
+
+}
+
+function changeFullPrice(price, add) {
+    let fullPrice = document.getElementById("fullPrice");
+    let newPrice;
+    if (add){
+        newPrice = parseFloat(fullPrice.getAttribute("data-full-price")) + price;
+    } else {
+        newPrice = parseFloat(fullPrice.getAttribute("data-full-price")) - price;
+    }
+    if (newPrice === 0){
+        fullPrice.innerText = "Full Price: " + 0.0 + " $";
+    } else {
+        fullPrice.innerText = "Full Price: " + newPrice.toFixed(2) + " $";
+    }
+    fullPrice.setAttribute("data-full-price", newPrice);
+}
+
+
+function removeCartCounter(){
     let cartCount = document.getElementById("cartCounter");
     cartCount.innerText = (parseInt(cartCount.innerText) - 1).toString();
     if (productCount.innerText === "0") {
+    if (cartCount.innerText === "0"){
         cartCount.innerText = "";
         document.getElementById("cartOpen").style.color = "black";
+    }
+}
+
+function addCartCounter() {
+    let cartCount = document.getElementById("cartCounter");
+    if (cartCount.innerText === ""){
+        cartCount.innerText = "1";
+    } else {
+        cartCount.innerText = (parseInt(cartCount.innerText) + 1).toString();
+    }
+    if (parseInt(cartCount.innerText) >= 0){
+        document.getElementById("cartOpen").style.color = "red";
     }
 }
 
@@ -35,8 +76,7 @@ function api_get(url) {
     fetch(url, {
         method: 'GET',
         credentials: 'same-origin'
-    }).then(r => {
-    })
+    }).then(r => {})
 
 }
 
