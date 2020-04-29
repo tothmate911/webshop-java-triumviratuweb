@@ -68,6 +68,8 @@ public class ProductController extends HttpServlet {
         context.setVariable("cartList", cart.getAll());
         context.setVariable("cartSize", cart.getSize());
         context.setVariable("cartFullPrice", cart.getFullPrice());
+        context.setVariable("categoryIdFiltered", categoryType != null && !categoryType.equals("All") ? categoryType : -1);
+        context.setVariable("supplierIdFiltered", supplierType != null && !supplierType.equals("All")? supplierType : -1);
 
         engine.process("product/index.html", context, resp.getWriter());
 
