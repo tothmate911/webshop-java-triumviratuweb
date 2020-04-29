@@ -10,8 +10,8 @@
             <div class="productName text-center center defaultFontSize" th:text="${cartProd.getKey().name}">Name</div>
             <div class="productPrice text-center center defaultFontSize" th:text="${cartProd.getKey().price}">Price</div>
             <div class="productQuantity text-center center defaultFontSize" th:text="${cartProd.getValue()}">0</div>
-            <div><img class="changeProductQuantity text-center center" src="/static/img/addProduct.png" alt="add" onmouseover="this.src='/static/img/addProductOnMouse.png';" onmouseout="this.src='/static/img/addProduct.png';"></div>
-            <div><img class="changeProductQuantity text-center center" src="/static/img/deleteProduct.png" alt="remove" onmouseover="this.src='/static/img/deleteProductOnMouse.png';" onmouseout="this.src='/static/img/deleteProduct.png';"></div>
+            <div><img th:attr="data-id=${cartProd.getKey().id}" class="changeProductQuantity text-center center" src="/static/img/addProduct.png" alt="add" onmouseover="this.src='/static/img/addProductOnMouse.png';" onmouseout="this.src='/static/img/addProduct.png';"></div>
+            <div><img th:attr="data-id=${cartProd.getKey().id}" class="changeProductQuantity text-center center" src="/static/img/deleteProduct.png" alt="remove" onmouseover="this.src='/static/img/deleteProductOnMouse.png';" onmouseout="this.src='/static/img/deleteProduct.png';"></div>
         </div>
     </div>
 
