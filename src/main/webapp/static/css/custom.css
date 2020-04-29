@@ -176,6 +176,9 @@ a:link, a:visited{
 .shopping-cart:hover{
     cursor: pointer;
 }
+.add-button:hover{
+    cursor: pointer;
+}
 .productList{
     width: 80%;
     height: 70%;

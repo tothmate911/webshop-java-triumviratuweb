@@ -7,8 +7,9 @@
     <div class="buttons">
         <a class="home-button" href="/"><div><strong>Home</strong></div></a>
         <div id="cartOpen" class="shopping-cart"   th:style="${cartList.size() == 0 ? 'color: black': 'color: red'}">
-            <i class="fa fa-shopping-cart" th:if="${cartList.size() == 0}"></i>
-            <i class="fa fa-shopping-cart" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}" th:style="'color: red; font-weight: bold'"></i>
+            <span class="fa fa-shopping-cart">
+                <i th:if="${cartList.size() == 0}"></i>
+                <i id="cartCounter" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}" th:style="'color: red; font-weight: bold'"></i></span>
         </div></div>
 </div>
 </body>

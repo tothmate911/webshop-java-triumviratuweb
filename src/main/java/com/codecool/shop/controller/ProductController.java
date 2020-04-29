@@ -60,17 +60,10 @@ public class ProductController extends HttpServlet {
             }
             List<Product> finalFilteredList = new ArrayList<>(productByCategory);
             finalFilteredList.retainAll(productBySupplier);
-            context.setVariable(    "products", finalFilteredList);
+            context.setVariable("products", finalFilteredList);
         } else {
             context.setVariable("products", productDataStore.getAll());
         }
-
-        //context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        // // Alternative setting of the template context
-        // Map<String, Object> params = new HashMap<>();
-        // params.put("category", productCategoryDataStore.find(1));
-        // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        // context.setVariables(params);
 
         context.setVariable("cartList", cart.getAll());
         context.setVariable("cartSize", cart.getSize());
