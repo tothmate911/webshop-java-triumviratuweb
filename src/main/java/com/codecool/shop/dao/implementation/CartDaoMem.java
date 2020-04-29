@@ -50,9 +50,10 @@ public class CartDaoMem implements CartDao {
     @Override
     public float getFullPrice(){
         float fullPrice = 0;
-        for (Product product: cartMap.keySet()){
-            fullPrice = product.getFloatPrice() * cartMap.get(product);
+        for (Map.Entry<Product, Integer> entry: cartMap.entrySet()){
+            fullPrice = entry.getKey().getFloatPrice() * entry.getValue();
         }
+        System.out.println(fullPrice);
         return fullPrice;
     }
 }
