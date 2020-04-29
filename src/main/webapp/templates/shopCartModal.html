@@ -28,14 +28,16 @@
         const container = document.getElementById("container");
 
         openButton.onclick = function () {
-            // window.location.reload();
-            modal.style.display = "block";
+            window.location.reload();
+            modal.classList.remove("hide");
+            modal.classList.add("display");
             container.style.pointerEvents = "none";
             container.style.opacity = "0.5";
         }
 
         closeButton.onclick = function () {
-            modal.style.display = "none";
+            modal.classList.remove("display");
+            modal.classList.add("hide");
             container.style.opacity = "1";
             container.style.pointerEvents = "auto";
         }

@@ -53,7 +53,6 @@ function changeFullPrice(price, add) {
 function removeCartCounter(){
     let cartCount = document.getElementById("cartCounter");
     cartCount.innerText = (parseInt(cartCount.innerText) - 1).toString();
-    if (productCount.innerText === "0") {
     if (cartCount.innerText === "0"){
         cartCount.innerText = "";
         document.getElementById("cartOpen").style.color = "black";
@@ -76,7 +75,7 @@ function api_get(url) {
     fetch(url, {
         method: 'GET',
         credentials: 'same-origin'
-    }).then(r => {})
+    }).then(() => {})
 
 }
 

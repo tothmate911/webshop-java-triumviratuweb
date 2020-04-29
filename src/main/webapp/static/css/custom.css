@@ -148,13 +148,18 @@ a:link, a:visited{
     background-repeat: no-repeat;
     background-size: 100% 100%;
     border-radius: 30px;
-    display: none;
     position: fixed;
     top: 25%;
     left: 25%;
     width: 800px;
     height: 500px;
     z-index: 2;
+}
+.hide{
+    display: none;
+}
+.display{
+    display: block;
 }
 .closeModal {
     width: 40px;
