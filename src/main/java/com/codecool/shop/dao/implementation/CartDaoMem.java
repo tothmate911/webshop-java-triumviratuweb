@@ -4,7 +4,6 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Product;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CartDaoMem implements CartDao {

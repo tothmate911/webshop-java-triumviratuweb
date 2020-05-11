@@ -10,8 +10,8 @@
     <packaging>war</packaging>
 
     <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <jetty.version>9.4.12.v20180830</jetty.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jetty.version>9.4.12.v20180830</jetty.version>
     </properties>
 
     <build>
@@ -64,6 +64,11 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>3.0.9.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
         </dependency>
     </dependencies>
 </project>
