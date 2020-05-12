@@ -19,14 +19,14 @@ CREATE TABLE prod_supplier(
 );
 
 CREATE TABLE product (
-                         id SERIAL PRIMARY KEY,
-                         name VARCHAR(40) NOT NULL,
-                         description TEXT,
-                         price FLOAT NOT NULL,
-                         currency VARCHAR(3) NOT NULL,
-                         image_file VARCHAR(30) NOT NULL,
-                         category_id INTEGER REFERENCES prod_category(id) NOT NULL,
-                         supplier_id INTEGER REFERENCES prod_supplier(id) NOT NULL
+     id SERIAL PRIMARY KEY,
+     name VARCHAR(40) NOT NULL,
+     description TEXT,
+     price FLOAT NOT NULL,
+     currency VARCHAR(3) NOT NULL,
+     image_file VARCHAR(30) NOT NULL,
+     category_id INTEGER REFERENCES prod_category(id) NOT NULL,
+     supplier_id INTEGER REFERENCES prod_supplier(id) NOT NULL
 );
 
 CREATE TABLE web_user(
