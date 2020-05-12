@@ -14,7 +14,7 @@ CREATE TABLE prod_category (
 
 CREATE TABLE prod_supplier(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(30),
+    name VARCHAR(30) NOT NULL,
     description TEXT
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE web_user(
     user_name VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(40) UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    active BOOLEAN
+    active BOOLEAN NOT NULL
 );
 
 CREATE TABLE cart(
