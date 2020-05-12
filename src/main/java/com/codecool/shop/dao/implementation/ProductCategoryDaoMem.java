@@ -1,14 +1,16 @@
 package com.codecool.shop.dao.implementation;
 
 
+import com.codecool.shop.controller.DbConnect;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoMem implements ProductCategoryDao {
-
+    private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private List<ProductCategory> data = new ArrayList<>();
     private static ProductCategoryDaoMem instance = null;
 

@@ -1,13 +1,16 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.controller.DbConnect;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Product;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CartDaoMem implements CartDao {
+    private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private Map<Product, Integer> cartMap = new HashMap<>();
     private static CartDaoMem instance = null;
     private int cartSize = 0;

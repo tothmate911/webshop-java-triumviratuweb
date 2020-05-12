@@ -1,13 +1,15 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.controller.DbConnect;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoMem implements SupplierDao {
-
+    private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private List<Supplier> data = new ArrayList<>();
     private static SupplierDaoMem instance = null;
 
