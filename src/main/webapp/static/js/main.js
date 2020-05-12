@@ -184,7 +184,8 @@ function api_get(url) {
     fetch(url, {
         method: 'GET',
         credentials: 'same-origin'
-    }).then(() => {})
+    }).then(response => response.json())
+        .then(data => alert(data.message))
 
 }
 
