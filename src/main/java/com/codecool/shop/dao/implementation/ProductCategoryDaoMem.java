@@ -2,10 +2,15 @@ package com.codecool.shop.dao.implementation;
 
 
 import com.codecool.shop.controller.DbConnect;
+import com.codecool.shop.controller.Util;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,22 +33,63 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
-        category.setId(data.size() + 1);
-        data.add(category);
+        String query = "INSERT INTO prod_category (cat_name,department,cat_description) VALUES (?,?,?);";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)
+        ) {
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDepartment());
+            statement.setString(3, category.getDescription());
+
+            statement.execute();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Override
     public ProductCategory find(int id) {
-        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+        ProductCategory category = null;
+        String query = "SELECT * FROM prod_category WHERE cat_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query);
+        ){
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            category = Util.createProductCategory(result);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return category;
     }
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        String query = "DELETE FROM prod_category WHERE cat_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)){
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Override
     public List<ProductCategory> getAll() {
-        return data;
+        List<ProductCategory> categories = new ArrayList<>();
+        String query = "SELECT * FROM prod_category;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet result = statement.executeQuery()){
+            while (result.next()){
+                ProductCategory category = Util.createProductCategory(result);
+                categories.add(category);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return categories;
     }
 }
