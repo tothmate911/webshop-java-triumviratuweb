@@ -7,7 +7,9 @@ public class Product extends BaseModel {
     private float defaultPrice;
     private Currency defaultCurrency;
     private ProductCategory productCategory;
+    private String imageFile;
     private Supplier supplier;
+
 
 
     public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
@@ -44,6 +46,14 @@ public class Product extends BaseModel {
     public void setPrice(float price, String currency) {
         this.defaultPrice = price;
         this.defaultCurrency = Currency.getInstance(currency);
+    }
+
+    public String getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
     }
 
     public ProductCategory getProductCategory() {
