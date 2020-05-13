@@ -5,6 +5,8 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,14 @@ public class SupplierDaoMem implements SupplierDao {
 
     @Override
     public List<Supplier> getAll() {
-        return data;
+        List<Supplier> suppliers = new ArrayList<>();
+        String query = "SELECT * FROM prod_supplier;";
+        try (Connection connection = dataSource.getConnection();
+             Statement statement= connection.createStatement(query);
+             ) {
+
+        }
+
+        return suppliers;
     }
 }
