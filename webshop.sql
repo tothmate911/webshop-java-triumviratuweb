@@ -40,7 +40,7 @@ CREATE TABLE web_user(
 CREATE TABLE cart(
     user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
     prod_id INTEGER REFERENCES product(prod_id) NOT NULL,
-    cart_is_active BOOLEAN NOT NULL
+    prod_quantity INT NOT NULL
 );
 
 CREATE TABLE pay(

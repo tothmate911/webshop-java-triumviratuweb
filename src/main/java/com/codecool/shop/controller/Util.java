@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public class Util{
+public class Util {
     public static ProductCategory createProductCategory(ResultSet result) throws SQLException {
         ProductCategory prodCat = new ProductCategory(result.getString("cat_name"),
                 result.getString("department"),
@@ -42,18 +42,32 @@ public class Util{
         return product;
     }
 
-    public static void searchProductBySupplierOrCategory(DataSource dataSource, String query, List<Product> products, BaseModel object){
-        try(Connection conn = dataSource.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query)){
+    public static void searchProductBySupplierOrCategory(DataSource dataSource, String query, List<Product> products, BaseModel object) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, object.getId());
             ResultSet result = statement.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 Product product = Util.createProduct(result);
                 products.add(product);
             }
-        } catch (Exception e)  {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
+    public static int productQuantityInCart(int id, DataSource dataSource) {
+        String query = "SELECT prod_quantity FROM cart WHERE prod_id = ? AND user_id = 1;";
+        int quantity = 0;
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            quantity = result.getInt("prod_quantity");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return quantity;
+    }
 }
