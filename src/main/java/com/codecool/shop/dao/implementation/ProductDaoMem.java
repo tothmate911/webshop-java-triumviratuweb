@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProductDaoMem implements ProductDao {
     private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
@@ -56,7 +55,7 @@ public class ProductDaoMem implements ProductDao {
     @Override
     public Product find(int id) {
         Product product = null;
-        String query = "SELECT * FROM product WHERE prod_id = ?;";
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE prod_id = ?;";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement statement = conn.prepareStatement(query);
             ){
@@ -102,7 +101,7 @@ public class ProductDaoMem implements ProductDao {
     @Override
     public List<Product> getBy(Supplier supplier) {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM product WHERE supplier_id = ?;";
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE supplier_id = ?;";
         Util.searchProductBySupplierOrCategory(dataSource, query, products, supplier);
         return products;
     }
@@ -110,7 +109,7 @@ public class ProductDaoMem implements ProductDao {
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM product WHERE category_id = ?;";
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE category_id = ?;";
         Util.searchProductBySupplierOrCategory(dataSource, query, products, productCategory);
         return products;
     }

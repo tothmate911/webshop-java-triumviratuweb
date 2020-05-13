@@ -11,10 +11,9 @@ import java.sql.ResultSet;
 import java.util.*;
 
 public class CartDaoMem implements CartDao {
-    private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
-    private Map<Product, Integer> cartMap = new HashMap<>();
+    private final ProductDaoMem productDaoMem = ProductDaoMem.getInstance();
+    private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private static CartDaoMem instance = null;
-    private int cartSize = 0;
 
     public static CartDaoMem getInstance() {
         if (instance == null) {
@@ -25,43 +24,48 @@ public class CartDaoMem implements CartDao {
 
     @Override
     public void add(Product product) {
-        cartMap.put(product, cartMap.getOrDefault(product, 0) + 1);
-        cartSize++;
+        if (getAll().size() < 10){
+            String query = "INSERT INTO cart (user_id, prod_id, cart_is_active) VALUES (?, ?, true)";
+            try(Connection conn = dataSource.getConnection();
+                PreparedStatement statement = conn.prepareStatement(query)){
+                statement.setInt(1, 1);
+                statement.setInt(2, product.getId());
+                statement.execute();
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        } else {
+            System.out.println("Your cart is Full!");
+        }
     }
 
     @Override
     public void remove(Product product) {
-        int numberOfProduct = cartMap.getOrDefault(product, 0);
-
-        if (numberOfProduct > 1) {
-            cartMap.put(product, numberOfProduct - 1);
-        } else {
-            cartMap.remove(product);
+        String query = "DELETE FROM cart WHERE user_id = 1 AND prod_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)){
+            statement.setInt(1, product.getId());
+            statement.execute();
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        cartSize--;
     }
 
     @Override
     public Map<Product, Integer> getAll() {
-        ProductDaoMem productDaoMem = ProductDaoMem.getInstance();
         Map<Product, Integer> cartMap = new HashMap<>();
         String query = "SELECT * FROM cart WHERE cart_is_active = true AND user_id = 1;";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet result = statement.executeQuery()){
-            result.next();
-            List<Integer> productIndexes = new ArrayList<>();
-            //TODO create stream
-            for (int i = 1; i <= 10; i++) {
-                productIndexes.add(result.getInt("prod_id" + i));
-            }
-            productIndexes.removeIf(Objects::isNull);
             Map<Integer, Integer> rawMap = new HashMap<>();
-            for (Integer i: productIndexes){
-                rawMap.merge(i, 1, Integer::sum);
+            while (result.next()){
+                int prod_id = result.getInt("prod_id");
+                rawMap.merge(prod_id, 1, Integer::sum);
             }
-            for (Integer i: rawMap.keySet()){
-                cartMap.put(productDaoMem.find(i), rawMap.get(i));
+            for (int i: rawMap.keySet()){
+                Product product = productDaoMem.find(i);
+                cartMap.put(product, rawMap.get(i));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -71,13 +75,19 @@ public class CartDaoMem implements CartDao {
 
     @Override
     public int getSize() {
+        Map<Product, Integer> products = getAll();
+        int cartSize = 0;
+        for (int i: products.values()){
+            cartSize += i;
+        }
         return cartSize;
     }
 
     @Override
     public float getFullPrice(){
+        Map<Product, Integer> products = getAll();
         float fullPrice = 0;
-        for (Map.Entry<Product, Integer> entry: cartMap.entrySet()){
+        for (Map.Entry<Product, Integer> entry: products.entrySet()){
             fullPrice += entry.getKey().getFloatPrice() * entry.getValue();
         }
         return fullPrice;
