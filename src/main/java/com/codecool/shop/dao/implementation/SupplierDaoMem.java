@@ -6,6 +6,8 @@ import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +50,12 @@ public class SupplierDaoMem implements SupplierDao {
         List<Supplier> suppliers = new ArrayList<>();
         String query = "SELECT * FROM prod_supplier;";
         try (Connection connection = dataSource.getConnection();
-             Statement statement= connection.createStatement(query);
-             ) {
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+        ) {
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
         return suppliers;
