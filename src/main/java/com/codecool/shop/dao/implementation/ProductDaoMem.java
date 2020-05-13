@@ -113,4 +113,23 @@ public class ProductDaoMem implements ProductDao {
         Util.searchProductBySupplierOrCategory(dataSource, query, products, productCategory);
         return products;
     }
+
+    @Override
+    public List<Product> getBy(Supplier supplier, ProductCategory productCategory) {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE category_id = ? AND supplier_id = ?;";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, productCategory.getId());
+            statement.setInt(2, supplier.getId());
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                Product product = Util.createProduct(result);
+                products.add(product);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return products;
+    }
 }

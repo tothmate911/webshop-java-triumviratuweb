@@ -43,24 +43,19 @@ public class ProductController extends HttpServlet {
         context.setVariable("category", productCategoryDataStore.getAll());
         context.setVariable("supplier", supplierDataStore.getAll());
 
-        List<Product> productByCategory;
-        List<Product> productBySupplier;
+        List<Product> products = null;
 
         if (categoryType != null && supplierType != null) {
-            if (categoryType.equals("All")) {
-                productByCategory = productDataStore.getAll();
-            } else {
-                productByCategory = productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryType)));
+            if (categoryType.equals("All") && supplierType.equals("All")) {
+                products = productDataStore.getAll();
+            } else if (!categoryType.equals("All") && supplierType.equals("All")) {
+                products = productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryType)));
+            } else if (categoryType.equals("All") && !supplierType.equals("All")){
+                products = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)));
+            } else if (!categoryType.equals("All") && !supplierType.equals("All")){
+                products = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)), productCategoryDataStore.find(Integer.parseInt(categoryType)));
             }
-
-            if (supplierType.equals("All")) {
-                productBySupplier = productDataStore.getAll();
-            } else {
-                productBySupplier = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)));
-            }
-            List<Product> finalFilteredList = new ArrayList<>(productByCategory);
-            finalFilteredList.retainAll(productBySupplier);
-            context.setVariable("products", finalFilteredList);
+            context.setVariable("products", products);
         } else {
             context.setVariable("products", productDataStore.getAll());
         }
