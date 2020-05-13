@@ -38,8 +38,14 @@ CREATE TABLE web_user(
 );
 
 CREATE TABLE cart(
-    cart_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES web_user(user_id),
+    user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
+    prod_id INTEGER REFERENCES product(prod_id) NOT NULL,
+    cart_is_active BOOLEAN NOT NULL
+);
+
+CREATE TABLE pay(
+    pay_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
     prod_id1 INTEGER REFERENCES product(prod_id),
     prod_id2 INTEGER REFERENCES product(prod_id),
     prod_id3 INTEGER REFERENCES product(prod_id),
@@ -50,12 +56,6 @@ CREATE TABLE cart(
     prod_id8 INTEGER REFERENCES product(prod_id),
     prod_id9 INTEGER REFERENCES product(prod_id),
     prod_id10 INTEGER REFERENCES product(prod_id),
-    cart_is_active BOOLEAN NOT NULL
-);
-
-CREATE TABLE pay(
-    pay_id SERIAL PRIMARY KEY,
-    cart_id INTEGER REFERENCES cart(cart_id) NOT NULL,
     pay_date TIMESTAMP NOT NULL,
     pay_type VARCHAR(20) NOT NULL,
     full_price FLOAT NOT NULL,
@@ -85,3 +85,5 @@ INSERT INTO product (prod_name, prod_description, price, currency, image_file, c
         ('Mario Hat', 'Accessory for plumbers', 15, 'USD', 'product_10.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Fantasy')),
         ('Xenomorph Tail', 'Long,nimble,deadly!', 80, 'USD', 'product_11.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Sci-Fi')),
         ('DragonBalls', 'You do not need to search the world for a wish', 700, 'USD', 'product_12.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Fantasy'));
+
+INSERT INTO web_user (user_name, email, password, user_is_active) VALUES ('admin', 'admin@admin.com', 'Password', true);
