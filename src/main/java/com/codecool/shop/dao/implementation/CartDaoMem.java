@@ -5,15 +5,23 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Product;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.*;
 
 public class CartDaoMem implements CartDao {
     private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private Map<Product, Integer> cartMap = new HashMap<>();
     private static CartDaoMem instance = null;
     private int cartSize = 0;
+
+    public static CartDaoMem getInstance() {
+        if (instance == null) {
+            instance = new CartDaoMem();
+        }
+        return instance;
+    }
 
     @Override
     public void add(Product product) {
@@ -33,15 +41,31 @@ public class CartDaoMem implements CartDao {
         cartSize--;
     }
 
-    public static CartDaoMem getInstance() {
-        if (instance == null) {
-            instance = new CartDaoMem();
-        }
-        return instance;
-    }
-
     @Override
     public Map<Product, Integer> getAll() {
+        ProductDaoMem productDaoMem = ProductDaoMem.getInstance();
+        Map<Product, Integer> cartMap = new HashMap<>();
+        String query = "SELECT * FROM cart WHERE cart_is_active = true AND user_id = 1;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet result = statement.executeQuery()){
+            result.next();
+            List<Integer> productIndexes = new ArrayList<>();
+            //TODO create stream
+            for (int i = 1; i <= 10; i++) {
+                productIndexes.add(result.getInt("prod_id" + i));
+            }
+            productIndexes.removeIf(Objects::isNull);
+            Map<Integer, Integer> rawMap = new HashMap<>();
+            for (Integer i: productIndexes){
+                rawMap.merge(i, 1, Integer::sum);
+            }
+            for (Integer i: rawMap.keySet()){
+                cartMap.put(productDaoMem.find(i), rawMap.get(i));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return cartMap;
     }
 
