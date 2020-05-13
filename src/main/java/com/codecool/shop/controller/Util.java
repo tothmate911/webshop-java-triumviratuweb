@@ -4,8 +4,11 @@ import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import org.json.JSONObject;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.io.BufferedReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,7 +55,7 @@ public class Util {
                 products.add(product);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In Util serchProductBySupplierOrCategory: " + e);
         }
     }
 
@@ -63,11 +66,25 @@ public class Util {
              PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
-            result.next();
-            quantity = result.getInt("prod_quantity");
+            if (result.next()){
+                quantity = result.getInt("prod_quantity");
+            }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In Util productQuantityInCart: " + e);
         }
         return quantity;
+    }
+
+    public static JSONObject apiRequestReader(HttpServletRequest req){
+        StringBuilder jb = new StringBuilder();
+        String line;
+        try(BufferedReader reader = req.getReader()) {
+            while((line = reader.readLine()) != null){
+                jb.append(line);
+            }
+        } catch (Exception e){
+            System.out.println("In Util apiRequestReader: " + e);
+        }
+        return new JSONObject(jb.toString());
     }
 }

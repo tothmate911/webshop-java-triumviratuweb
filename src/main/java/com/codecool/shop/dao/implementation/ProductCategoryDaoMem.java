@@ -5,7 +5,6 @@ import com.codecool.shop.controller.DbConnect;
 import com.codecool.shop.controller.Util;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -15,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoMem implements ProductCategoryDao {
-    private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
-    private List<ProductCategory> data = new ArrayList<>();
+    private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private static ProductCategoryDaoMem instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -43,7 +41,7 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
 
             statement.execute();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In ProductCategoryDaoMem add: " + e);
         }
     }
 
@@ -52,14 +50,14 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
         ProductCategory category = null;
         String query = "SELECT * FROM prod_category WHERE cat_id = ?;";
         try(Connection conn = dataSource.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);
+            PreparedStatement statement = conn.prepareStatement(query)
         ){
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             result.next();
             category = Util.createProductCategory(result);
         }catch (Exception e){
-            System.out.println(e);
+            System.out.println("In ProductCategoryDaoMem find: " + e);
         }
         return category;
     }
@@ -72,7 +70,7 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In ProductCategoryDaoMem remove: " + e);
         }
     }
 
@@ -88,7 +86,7 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
                 categories.add(category);
             }
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println("In ProductCategoryDaoMem getAll: " + e);
         }
         return categories;
     }

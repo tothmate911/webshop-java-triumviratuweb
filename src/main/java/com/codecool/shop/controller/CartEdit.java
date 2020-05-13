@@ -24,51 +24,30 @@ import java.util.Map;
 
 @WebServlet(urlPatterns = {"/cartEdit/*"})
 public class CartEdit extends HttpServlet {
-    private final ProductDao productDataStore = ProductDaoMem.getInstance();
-    private final CartDao cartDataStore = CartDaoMem.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int productId = Integer.parseInt(req.getParameter("id"));
-        String editType = req.getParameter("type");
-
-        Product product = productDataStore.find(productId);
-
-        if (editType.equals("add")) {
-            cartDataStore.add(product);
-        } else if (editType.equals("remove")) {
-            cartDataStore.remove(product);
-        }
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder jb = new StringBuilder();
-        String line;
-        try(BufferedReader reader = req.getReader()) {
-            while((line = reader.readLine()) != null){
-                jb.append(line);
-            }
-        } catch (Exception e){
-            System.out.println(e);
-        }
-        JSONObject jsonObject = new JSONObject(jb.toString());
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        CartDao cartDataStore = CartDaoMem.getInstance();
+
+        JSONObject jsonObject = Util.apiRequestReader(req);
         int productId = jsonObject.getInt("id");
         String editType = jsonObject.getString("type");
 
         Product product = productDataStore.find(productId);
-
+        String cartIsFull = null;
         if (editType.equals("add")) {
-            cartDataStore.add(product);
+            cartIsFull = cartDataStore.add(product);
         } else if (editType.equals("remove")) {
             cartDataStore.remove(product);
         }
-
         try(PrintWriter out = resp.getWriter()){
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
 
             JSONObject response_data = new JSONObject();
+            response_data.append("id", product.getId());
+            response_data.append("status", cartIsFull);
             response_data.append("fullPrice", cartDataStore.getFullPrice() + " $");
             out.print(response_data.toString());
         }

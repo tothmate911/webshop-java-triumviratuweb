@@ -17,7 +17,6 @@ import java.util.List;
 
 public class ProductDaoMem implements ProductDao {
     private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
-    private final List<Product> data = new ArrayList<>();
     private static ProductDaoMem instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -48,7 +47,7 @@ public class ProductDaoMem implements ProductDao {
             statement.setInt(7, product.getSupplier().getId());
             statement.execute();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In ProductDaoMem add: " + e);
         }
     }
 
@@ -57,14 +56,14 @@ public class ProductDaoMem implements ProductDao {
         Product product = null;
         String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE prod_id = ?;";
         try(Connection conn = dataSource.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);
+            PreparedStatement statement = conn.prepareStatement(query)
             ){
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             result.next();
             product = Util.createProduct(result);
         }catch (Exception e){
-            System.out.println(e);
+            System.out.println("In ProductDaoMem find: " + e);
         }
         return product;
     }
@@ -77,7 +76,7 @@ public class ProductDaoMem implements ProductDao {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In ProductDaoMem remove: " + e);
         }
     }
 
@@ -93,7 +92,7 @@ public class ProductDaoMem implements ProductDao {
                 products.add(product);
             }
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println("In ProductDaoMem getAll: " + e);
         }
         return products;
     }
@@ -128,7 +127,7 @@ public class ProductDaoMem implements ProductDao {
                 products.add(product);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In ProductDaoMem getBy(supplier and category): " + e);
         }
         return products;
     }

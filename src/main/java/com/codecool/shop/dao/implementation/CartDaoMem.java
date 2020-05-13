@@ -24,7 +24,7 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public void add(Product product) {
+    public String add(Product product) {
         if (getSize() < 10){
             int quantity = Util.productQuantityInCart(product.getId(), dataSource);
             if(quantity == 0){
@@ -35,13 +35,14 @@ public class CartDaoMem implements CartDao {
                     statement.setInt(2, product.getId());
                     statement.execute();
                 } catch (Exception e){
-                    System.out.println(e);
+                    System.out.println("In CartDaoMem add: " + e);
                 }
             } else {
                 update(product, true);
             }
+            return "not full";
         } else {
-            System.out.println("Your cart is Full!");
+            return "full";
         }
     }
 
@@ -55,7 +56,7 @@ public class CartDaoMem implements CartDao {
                 statement.setInt(1, product.getId());
                 statement.execute();
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("In CartDaoMem remove: " + e);
             }
         } else {
             update(product, false);
@@ -76,7 +77,7 @@ public class CartDaoMem implements CartDao {
             statement.setInt(2, product.getId());
             statement.execute();
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println("In CartDaoMem update: " + e);
         }
     }
 
@@ -92,7 +93,7 @@ public class CartDaoMem implements CartDao {
                         result.getInt("prod_quantity"));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("In CartDaoMem getAll: " + e);
         }
         return cartMap;
     }
@@ -115,5 +116,10 @@ public class CartDaoMem implements CartDao {
             fullPrice += entry.getKey().getFloatPrice() * entry.getValue();
         }
         return fullPrice;
+    }
+
+    @Override
+    public int getQuantityByProduct(int id) {
+        return Util.productQuantityInCart(id, dataSource);
     }
 }

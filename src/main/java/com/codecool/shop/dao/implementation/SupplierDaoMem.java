@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoMem implements SupplierDao {
-    private DataSource dataSource = DbConnect.getDbConnect().getDataSource();
-    private List<Supplier> data = new ArrayList<>();
+    private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private static SupplierDaoMem instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -39,16 +38,13 @@ public class SupplierDaoMem implements SupplierDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        supplier.setId(data.size() + 1);
-//        data.add(supplier);
     }
 
     @Override
     public Supplier find(int id) {
         String query = "SELECT * FROM prod_supplier WHERE sup_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -60,7 +56,6 @@ public class SupplierDaoMem implements SupplierDao {
         }
         return null;
 
-//        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
     }
 
     @Override
@@ -76,7 +71,6 @@ public class SupplierDaoMem implements SupplierDao {
             e.printStackTrace();
         }
 
-//        data.remove(find(id));
     }
 
     @Override
@@ -85,7 +79,7 @@ public class SupplierDaoMem implements SupplierDao {
         String query = "SELECT * FROM prod_supplier;";
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query);
+             ResultSet resultSet = statement.executeQuery(query)
         ) {
             while (resultSet.next()) {
                 Supplier supplier = Util.createSupplier(resultSet);
