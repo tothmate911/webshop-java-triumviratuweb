@@ -1,14 +1,18 @@
-function addElement(id, price) {
-    api_get("/cartEdit/?id=" + id + "&type=add");
+function addElement(id) {
+    const data = {id: id, type: "add"};
+    api_post("/cartEdit", data, changePrice);
     addCounter(id);
-    changeFullPrice(price, true)
 }
 
-function removeElement(id, price) {
-    api_get("/cartEdit/?id=" + id + "&type=remove");
+function changePrice(data){
+    document.getElementById("fullPrice").innerText = "Full Price: " + data.fullPrice;
+}
+
+function removeElement(id) {
+    const data = {id: id, type: "remove"};
+    api_post("/cartEdit", data, changePrice)
     removeCounter(id);
     removeCartCounter();
-    changeFullPrice(price, false)
 }
 
 function addToCart(id, price) {
@@ -196,7 +200,6 @@ function api_post(url, data, callback) {
         },
         body: JSON.stringify(data)
     })
-        .then(function () {
-            callback()
-        })
+        .then(response => response.json())
+        .then(data => callback(data))
 }
