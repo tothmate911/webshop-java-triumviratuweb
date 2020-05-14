@@ -1,12 +1,12 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.model.Supplier;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SupplierDaoMemTest {
+public class SupplierDaoMemTest {
     private SupplierDaoMem supplierDaoMem = SupplierDaoMem.getInstance();
 
     @Test
@@ -17,14 +17,13 @@ class SupplierDaoMemTest {
     }
 
     @Test
+    @Sql({"webshop_test.sql"})
     public void testAdd() {
         Supplier supplier = new Supplier("P&T", "Fantasy weapon dealership");
         supplierDaoMem.add(supplier);
         Supplier foundSupplier = supplierDaoMem.find(3);
         assertEquals("P&T", foundSupplier.getName());
         assertEquals("Fantasy weapon dealership", foundSupplier.getDescription());
-
-        supplierDaoMem.remove(3);
     }
 
 }
