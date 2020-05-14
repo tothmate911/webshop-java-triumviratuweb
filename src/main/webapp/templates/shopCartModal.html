@@ -18,8 +18,8 @@
     <img id="cartClose" class="closeModal" src="/static/img/exitModal.png" alt="exit" onmouseover="this.src='/static/img/exitModalOnMouse.png';" onmouseout="this.src='/static/img/exitModal.png';">
     <div id="fullPrice" th:attr="data-full-price=${cartFullPrice}" class="fullPrice center text-center" th:text="'Full Price: ' + ${cartFullPrice} + ' $'">0</div>
     <div class="cartButtons">
-        <div class="text-center"><img class="buttonSize text-center" src="/static/img/checkButton.png" alt="check" onmouseover="this.src='/static/img/checkButtonOnMouse.png';" onmouseout="this.src='/static/img/checkButton.png';"></div>
-        <div class="text-center"><img class="buttonSize text-center" src="/static/img/buyButton.png" alt="check" onmouseover="this.src='/static/img/buyButtonOnMouse.png';" onmouseout="this.src='/static/img/buyButton.png';"></div>
+        <a href="/check"><div class="text-center"><img class="buttonSize text-center" src="/static/img/checkButton.png" alt="check" onmouseover="this.src='/static/img/checkButtonOnMouse.png';" onmouseout="this.src='/static/img/checkButton.png';"></div></a>
+<!--        <div class="text-center"><img class="buttonSize text-center" src="/static/img/buyButton.png" alt="check" onmouseover="this.src='/static/img/buyButtonOnMouse.png';" onmouseout="this.src='/static/img/buyButton.png';"></div>-->
     </div>
     <script>
         const modal = document.getElementById("cartModal");
@@ -28,7 +28,6 @@
         const container = document.getElementById("container");
 
         openButton.onclick = function () {
-            // window.location.reload();
             modal.classList.remove("hide");
             modal.classList.add("display");
             container.style.pointerEvents = "none";

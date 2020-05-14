@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS pay;
+DROP TABLE IF EXISTS buyer_data;
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS web_user;
 DROP TABLE IF EXISTS product;
@@ -43,9 +44,19 @@ CREATE TABLE cart(
     prod_quantity INT NOT NULL
 );
 
+CREATE TABLE buyer_data(
+    buyer_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
+    buyer_name VARCHAR(40) NOT NULL,
+    buyer_email VARCHAR(40) NOT NULL,
+    buyer_phone_number VARCHAR(20) NOT NULL,
+    buyer_billing_address TEXT NOT NULL,
+    buyer_shipping_address TEXT NOT NULL
+);
+
 CREATE TABLE pay(
     pay_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
+    buyer_id INTEGER REFERENCES buyer_data(buyer_id) NOT NULL,
     prod_id1 INTEGER REFERENCES product(prod_id),
     prod_id2 INTEGER REFERENCES product(prod_id),
     prod_id3 INTEGER REFERENCES product(prod_id),
