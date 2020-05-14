@@ -1,22 +1,14 @@
 package com.codecool.shop.dao.implementation;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SupplierDaoMemTest {
 
-    @org.junit.jupiter.api.Test
-    void add() {
+    @Test
+    void testAdd() {
+
     }
 
-    @org.junit.jupiter.api.Test
-    void find() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void remove() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void getAll() {
-    }
 }
