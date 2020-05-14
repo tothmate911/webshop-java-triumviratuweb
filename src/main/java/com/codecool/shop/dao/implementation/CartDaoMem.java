@@ -64,6 +64,18 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
+    public void removeByUserId(int id) {
+        String query = "DELETE FROM cart WHERE user_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)){
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void update(Product product, boolean plus) {
         int quantity = Util.productQuantityInCart(product.getId(), dataSource);
         String query = "UPDATE cart SET prod_quantity = ? WHERE prod_id = ?;";

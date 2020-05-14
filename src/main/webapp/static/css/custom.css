@@ -268,3 +268,14 @@ a:link, a:visited{
     background-color: white;
     border-radius: 5px;
 }
+#payPalContainer {
+    background-color: aquamarine;
+    border-radius: 5px;
+    padding: 5px 5px 5px 5px;
+}
+
+#creditCardContainer {
+    background-color: aquamarine;
+    border-radius: 5px;
+    padding: 5px 5px 5px 5px;
+}
