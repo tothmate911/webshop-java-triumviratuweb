@@ -35,7 +35,7 @@ public class Buy extends HttpServlet {
     protected void doPost (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         int user_id = Integer.parseInt(req.getParameter("user_id"));
         cartDataStore.removeByUserId(user_id);
-
+//        TODO save into pay table
 
 
         resp.sendRedirect("/");
