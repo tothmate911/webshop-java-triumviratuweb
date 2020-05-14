@@ -1,21 +1,42 @@
-function addElement(id, price) {
-    api_get("/cartEdit/?id=" + id + "&type=add");
-    addCounter(id);
-    changeFullPrice(price, true)
+function addElement(id) {
+    const change = function (data) {
+        if(String(data.status) === "full"){
+            alert("Your cart is full!");
+        } else {
+            changePrice(data);
+            addCounter(Number(data.id));
+        }
+    }
+    const data = {id: id, type: "add"};
+    api_post("/cartEdit", data, change);
 }
 
-function removeElement(id, price) {
-    api_get("/cartEdit/?id=" + id + "&type=remove");
-    removeCounter(id);
+function changePrice(data){
+    document.getElementById("fullPrice").innerText = "Full Price: " + data.fullPrice;
+}
+
+function removeElement(id) {
+    const changes = function (data) {
+        changePrice(data);
+        removeCounter(Number(data.id));
+    };
+    const data = {id: id, type: "remove"};
+    api_post("/cartEdit", data, changes)
     removeCartCounter();
-    changeFullPrice(price, false)
 }
 
-function addToCart(id, price) {
-    api_get("/add-to-cart/?id=" + id)
-    addCartCounter();
-    addProductToCart(id)
-    changeFullPrice(price, true)
+function addToCart(id) {
+    const changes = function (data) {
+        if (String(data.status) === "full"){
+            alert("Your cart is full!")
+        } else {
+            changePrice(data);
+            addProductToCart(data);
+            addCartCounter();
+        }
+    }
+    const data = {id: id};
+    api_post("/add-to-cart", data, changes)
 }
 
 function addCounter(id) {
@@ -33,23 +54,6 @@ function removeCounter(id) {
     }
 
 }
-
-function changeFullPrice(price, add) {
-    let fullPrice = document.getElementById("fullPrice");
-    let newPrice;
-    if (add){
-        newPrice = parseFloat(fullPrice.getAttribute("data-full-price")) + price;
-    } else {
-        newPrice = parseFloat(fullPrice.getAttribute("data-full-price")) - price;
-    }
-    if (newPrice === 0){
-        fullPrice.innerText = "Full Price: " + 0.0 + " $";
-    } else {
-        fullPrice.innerText = "Full Price: " + newPrice.toFixed(2) + " $";
-    }
-    fullPrice.setAttribute("data-full-price", newPrice);
-}
-
 
 function removeCartCounter(){
     let cartCount = document.getElementById("cartCounter");
@@ -72,21 +76,17 @@ function addCartCounter() {
     }
 }
 
-function addProductToCart(id){
-    const productQuantity = document.getElementById("count" + id);
+function addProductToCart(data){
+    const productQuantity = document.getElementById("count" + data.id);
 
     if (productQuantity === null){
-        buildProduct(id)
+        buildProduct(data)
     } else {
-        productQuantity.innerText = (parseInt(productQuantity.innerText) + 1).toString();
+        productQuantity.innerText = data.quantity.toString();
     }
 }
 
-function buildProduct(id){
-    const product = document.getElementById("productData" + id);
-    const productDataFloatPrice = parseFloat(product.getAttribute("data-float-price"));
-    const productDataName = product.getAttribute("data-name");
-    const productDataPrice = product.getAttribute("data-price");
+function buildProduct(data){
     const container = document.getElementById("cartModal");
     const cardBody = document.getElementById("productList");
 
@@ -94,12 +94,12 @@ function buildProduct(id){
 
     let content = document.createElement("div");
     content.classList.add("modalContent");
-    content.id = id;
+    content.id = Number(data.id);
 
     let productImage = document.createElement("div");
     productImage.classList.add("productImage");
     let image = document.createElement("img");
-    image.src = "/static/img/product_" + id + ".jpg";
+    image.src = "/static/img/" + data.image;
     image.style.width = "100px";
     image.style.height = "100px";
     productImage.appendChild(image);
@@ -109,22 +109,22 @@ function buildProduct(id){
     productName.classList.add("text-center");
     productName.classList.add("center");
     productName.classList.add("defaultFontSize");
-    productName.innerText = productDataName;
+    productName.innerText = data.name;
 
     let productPrice = document.createElement("div");
     productPrice.classList.add("productPrice");
     productPrice.classList.add("text-center");
     productPrice.classList.add("center");
     productPrice.classList.add("defaultFontSize");
-    productPrice.innerText = productDataPrice;
+    productPrice.innerText = data.price;
 
     let productQuantity = document.createElement("div");
-    productQuantity.id = "count" + id;
+    productQuantity.id = "count" + data.id;
     productQuantity.classList.add("productQuantity");
     productQuantity.classList.add("text-center");
     productQuantity.classList.add("center");
     productQuantity.classList.add("defaultFontSize");
-    productQuantity.innerText = "1";
+    productQuantity.innerText = data.quantity;
 
     let plusButton = document.createElement("div");
     let plusImage = document.createElement("img");
@@ -133,7 +133,7 @@ function buildProduct(id){
     plusImage.classList.add("text-center");
     plusImage.classList.add("center");
     plusImage.addEventListener("click", function () {
-        addElement(id, productDataFloatPrice);
+        addElement(Number(data.id));
     });
     plusImage.addEventListener("mouseover", function () {
         this.src = "/static/img/addProductOnMouse.png";
@@ -150,7 +150,7 @@ function buildProduct(id){
     minusImage.classList.add("text-center");
     minusImage.classList.add("center");
     minusImage.addEventListener("click", function () {
-        removeElement(id, productDataFloatPrice)
+        removeElement(Number(data.id))
     });
     minusImage.addEventListener("mouseover", function () {
         this.src = "/static/img/deleteProductOnMouse.png";
@@ -196,7 +196,6 @@ function api_post(url, data, callback) {
         },
         body: JSON.stringify(data)
     })
-        .then(function () {
-            callback()
-        })
+        .then(response => response.json())
+        .then(data => callback(data))
 }

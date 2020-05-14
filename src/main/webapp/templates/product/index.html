@@ -63,7 +63,7 @@
         <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
             <div class="card">
                 <img class="" height="200px" width="100%" src="http://placehold.it/400x250/000/fff"
-                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
+                     th:attr="src='/static/img/' + ${prod.imageFile}" alt=""/>
                 <div class="card-header">
                     <h4 class="card-title" th:text="${prod.name}">Product name</h4>
                     <p class="card-text" th:text="${prod.description}">Product description... </p>
@@ -72,8 +72,8 @@
                     <div class="card-text">
                         <p class="lead text-center center" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
-                    <div th:attr="data-name=${prod.name}, data-price=${prod.price}, id='productData' + ${prod.id}, data-float-price=${prod.getFloatPrice()}" class="card-text add-button">
-                        <img th:onclick="|addToCart(${prod.id}, ${prod.getFloatPrice()})|" src="/static/img/add_cart.png"
+                    <div th:attr="id='productData' + ${prod.id}" class="card-text add-button">
+                        <img th:onclick="|addToCart(${prod.id})|" src="/static/img/add_cart.png"
                              onmouseover="this.src='/static/img/add_cart_on_mouse.png';"
                              onmouseout="this.src='/static/img/add_cart.png';" alt="Add to cart"/>
                     </div>
