@@ -47,7 +47,7 @@ public class Check extends HttpServlet {
         buyerData.put("billing_address", req.getParameter("billing_address"));
         buyerData.put("shipping_address", req.getParameter("shipping_address"));
 
-//        buyerDataDaoMem.add(buyerData);
+        buyerDataDaoMem.add(buyerData);
 
         resp.sendRedirect("/buy/?id=" + buyerData.get("id"));
     }
