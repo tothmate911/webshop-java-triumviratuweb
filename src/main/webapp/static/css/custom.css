@@ -157,6 +157,22 @@ a:link, a:visited{
     height: 500px;
     z-index: 2;
 }
+
+.registrationModal {
+    background-color: darkgoldenrod;
+    border-radius: 30px;
+    position: fixed;
+    top: 5%;
+    left: 25%;
+    width: 800px;
+    height: 1200px;
+    z-index: 2;
+}
+
+.registration-form {
+    padding: 20px;
+}
+
 .hide{
     display: none;
 }
