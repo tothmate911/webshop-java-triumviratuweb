@@ -22,7 +22,6 @@ public class Registration extends HttpServlet {
         String emailAddress = req.getParameter("email");
 
 
-
         resp.sendRedirect("/");
     }
 }
