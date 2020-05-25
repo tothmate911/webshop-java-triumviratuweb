@@ -5,12 +5,18 @@
 <div class="text-center header" th:fragment="copy">
     <div class="header_image"><img src="/static/img/header_title2.png" alt=""></div>
     <div class="buttons">
-        <a class="home-button" href="/"><div><strong>Home</strong></div></a>
+        <a class="home-button" href="/">
+            <div><strong>Home</strong></div>
+        </a>
         <div id="cartOpen" class="shopping-cart" th:style="${cartList.size() == 0 ? 'color: black': 'color: red'}">
             <span class="fa fa-shopping-cart">
                 <i id="cartCounter" th:if="${cartList.size() == 0}"></i>
-                <i id="cartCounter" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}" th:style="'color: red; font-weight: bold'"></i></span>
-        </div></div>
+                <i id="cartCounter" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}"
+                   th:style="'color: red; font-weight: bold'"></i></span>
+        </div>
+        <div id="registration-button">Registration</div>
+        <div id="login-button">Login</div>
+    </div>
 </div>
 </body>
 </html>

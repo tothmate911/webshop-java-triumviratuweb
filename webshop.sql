@@ -47,7 +47,8 @@ CREATE TABLE cart(
 CREATE TABLE buyer_data(
     buyer_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
-    buyer_name VARCHAR(40) NOT NULL,
+    buyer_first_name VARCHAR(40) NOT NULL,
+    buyer_last_name VARCHAR(40) NOT NULL,
     buyer_email VARCHAR(40) NOT NULL,
     buyer_phone_number VARCHAR(20) NOT NULL,
     buyer_billing_address TEXT NOT NULL,

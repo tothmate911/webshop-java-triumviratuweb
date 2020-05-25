@@ -1,6 +1,6 @@
 function addElement(id) {
     const change = function (data) {
-        if(String(data.status) === "full"){
+        if (String(data.status) === "full") {
             alert("Your cart is full!");
         } else {
             changePrice(data);
@@ -11,7 +11,7 @@ function addElement(id) {
     api_post("/cartEdit", data, change);
 }
 
-function changePrice(data){
+function changePrice(data) {
     document.getElementById("fullPrice").innerText = "Full Price: " + data.fullPrice;
 }
 
@@ -27,7 +27,7 @@ function removeElement(id) {
 
 function addToCart(id) {
     const changes = function (data) {
-        if (String(data.status) === "full"){
+        if (String(data.status) === "full") {
             alert("Your cart is full!")
         } else {
             changePrice(data);
@@ -55,10 +55,10 @@ function removeCounter(id) {
 
 }
 
-function removeCartCounter(){
+function removeCartCounter() {
     let cartCount = document.getElementById("cartCounter");
     cartCount.innerText = (parseInt(cartCount.innerText) - 1).toString();
-    if (cartCount.innerText === "0"){
+    if (cartCount.innerText === "0") {
         cartCount.innerText = "";
         document.getElementById("cartOpen").style.color = "black";
     }
@@ -66,30 +66,29 @@ function removeCartCounter(){
 
 function addCartCounter() {
     let cartCount = document.getElementById("cartCounter");
-    if (cartCount.innerText === ""){
+    if (cartCount.innerText === "") {
         cartCount.innerText = "1";
     } else {
         cartCount.innerText = (parseInt(cartCount.innerText) + 1).toString();
     }
-    if (parseInt(cartCount.innerText) >= 0){
+    if (parseInt(cartCount.innerText) >= 0) {
         document.getElementById("cartOpen").style.color = "red";
     }
 }
 
-function addProductToCart(data){
+function addProductToCart(data) {
     const productQuantity = document.getElementById("count" + data.id);
 
-    if (productQuantity === null){
+    if (productQuantity === null) {
         buildProduct(data)
     } else {
         productQuantity.innerText = data.quantity.toString();
     }
 }
 
-function buildProduct(data){
+function buildProduct(data) {
     const container = document.getElementById("cartModal");
     const cardBody = document.getElementById("productList");
-
 
 
     let content = document.createElement("div");
@@ -167,7 +166,7 @@ function buildProduct(data){
     content.appendChild(plusButton);
     content.appendChild(minusButton);
 
-    if (cardBody === null){
+    if (cardBody === null) {
         let newCardBody = document.createElement("div");
         newCardBody.id = "productList";
         newCardBody.classList.add("productList");
@@ -184,7 +183,8 @@ function api_get(url) {
     fetch(url, {
         method: 'GET',
         credentials: 'same-origin'
-    }).then(() => {})
+    }).then(() => {
+    })
 
 }
 

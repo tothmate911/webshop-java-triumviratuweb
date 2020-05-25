@@ -114,10 +114,10 @@ body{
 }
 .buttons{
     border-radius: 20px;
-    width: 200px;
+    width: 400px;
     height: 40px;
     display: inline-grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 25% 25% 25%;
     position: absolute;
     bottom: 0;
     left: 0;
