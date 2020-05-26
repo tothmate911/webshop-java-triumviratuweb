@@ -17,7 +17,7 @@ public class UserDaoMem implements UserDao {
         dataSource = DbConnect.getDbConnect().getDataSource();
     }
 
-    public UserDaoMem getInstance() {
+    public static UserDaoMem getInstance() {
         if (userDaoMemInstance == null) {
             userDaoMemInstance = new UserDaoMem();
         }

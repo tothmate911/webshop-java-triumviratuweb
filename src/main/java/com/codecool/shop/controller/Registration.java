@@ -1,5 +1,8 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.dao.implementation.UserDaoMem;
+import com.codecool.shop.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
@@ -18,9 +21,13 @@ public class Registration extends HttpServlet {
         System.out.println("registration");
 
         String userName = req.getParameter("user_name");
-        String hashedPassword = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt(userName.charAt(0)));
         String emailAddress = req.getParameter("email");
+        String hashedPassword = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt(userName.charAt(0)));
 
+        User user = new User(userName, emailAddress, hashedPassword);
+
+        UserDao userDataStore = UserDaoMem.getInstance();
+        userDataStore.add(user);
 
         resp.sendRedirect("/");
     }
