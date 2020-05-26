@@ -88,6 +88,7 @@ public class UserDaoMem implements UserDao {
     private User createUserObject(ResultSet resultSet) throws SQLException {
         return new User(resultSet.getString("user_name"),
                 resultSet.getString("email"),
-                resultSet.getString("hashed_password"));
+                resultSet.getString("hashed_password"),
+                resultSet.getString("salt"));
     }
 }

@@ -35,6 +35,7 @@ CREATE TABLE web_user(
     user_name VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(40) UNIQUE NOT NULL,
     hashed_password TEXT NOT NULL,
+    salt TEXT NOT NULL,
     user_is_active BOOLEAN NOT NULL
 );
 
@@ -98,4 +99,4 @@ INSERT INTO product (prod_name, prod_description, price, currency, image_file, c
         ('Xenomorph Tail', 'Long,nimble,deadly!', 80, 'USD', 'product_11.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Sci-Fi')),
         ('DragonBalls', 'You do not need to search the world for a wish', 700, 'USD', 'product_12.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Fantasy'));
 
-INSERT INTO web_user (user_name, email, hashed_password, user_is_active) VALUES ('admin', 'admin@admin.com', 'Password', true);
+INSERT INTO web_user (user_name, email, hashed_password, salt, user_is_active) VALUES ('admin', 'admin@admin.com', 'Password', 'Salt', true);

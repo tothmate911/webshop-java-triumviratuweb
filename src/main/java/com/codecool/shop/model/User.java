@@ -6,12 +6,14 @@ public class User {
     private String firstName;
     private String lastName;
     private String hashedPassword;
+    private String salt;
     private Integer id;
 
-    public User(String username, String emailAddress, String hashedPassword) {
+    public User(String username, String emailAddress, String hashedPassword, String salt) {
         this.username = username;
         this.emailAddress = emailAddress;
         this.hashedPassword = hashedPassword;
+        this.salt = salt;
     }
 
     public String getUsername() {
@@ -36,6 +38,10 @@ public class User {
 
     public String getHashedPassword() {
         return hashedPassword;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 
     public void setId(Integer id) {

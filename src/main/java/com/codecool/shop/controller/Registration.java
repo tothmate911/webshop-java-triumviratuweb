@@ -28,8 +28,9 @@ public class Registration extends HttpServlet {
     private User createUserObject(HttpServletRequest req) {
         String userName = req.getParameter("user_name");
         String emailAddress = req.getParameter("email");
-        String hashedPassword = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt(userName.charAt(0)));
+        String salt = BCrypt.gensalt(12);
+        String hashedPassword = BCrypt.hashpw(req.getParameter("password"), salt);
 
-        return new User(userName, emailAddress, hashedPassword);
+        return new User(userName, emailAddress, hashedPassword, salt);
     }
 }
