@@ -111,6 +111,27 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
+    public List<Integer> getAllProductIdByUserId(int id) {
+        List<Integer> productIds = new ArrayList<>();
+        String query = "SELECT prod_id, prod_quantity FROM cart WHERE user_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)
+            ){
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            while (result.next()){
+                int quantity = result.getInt("prod_quantity");
+                for (int i = 0; i < quantity; i++) {
+                    productIds.add(result.getInt("prod_id"));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return productIds;
+    }
+
+    @Override
     public int getSize() {
         Map<Product, Integer> products = getAll();
         int cartSize = 0;

@@ -41,13 +41,19 @@ public class Check extends HttpServlet {
 
         HashMap<String, String> buyerData = new HashMap<>();
         buyerData.put("id", req.getParameter("user_id"));
-        buyerData.put("name", req.getParameter("fname") + " " + req.getParameter("lname"));
+        buyerData.put("fname", req.getParameter("fname"));
+        buyerData.put("lname", req.getParameter("lname"));
         buyerData.put("email", req.getParameter("email"));
         buyerData.put("phone_number", req.getParameter("phonenum"));
         buyerData.put("billing_address", req.getParameter("billing_address"));
         buyerData.put("shipping_address", req.getParameter("shipping_address"));
 
-        buyerDataDaoMem.add(buyerData);
+        HashMap<String, Object> buyer = buyerDataDaoMem.find(Integer.parseInt(buyerData.get("id")));
+        if (buyer.get("user_id") == null){
+            buyerDataDaoMem.add(buyerData);
+        } else {
+            buyerDataDaoMem.update(buyerData);
+        }
 
         resp.sendRedirect("/buy/?id=" + buyerData.get("id"));
     }
