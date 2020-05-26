@@ -5,10 +5,8 @@ import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoMem implements UserDao {
@@ -50,25 +48,46 @@ public class UserDaoMem implements UserDao {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-//                    User user = new User();
+                    return createUserObject(resultSet);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         return null;
     }
 
     @Override
     public void remove(int id) {
-
+        String query = "DELETE FROM web_user WHERE user_id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM web_user";
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                users.add(createUserObject(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    private User createUserObject(ResultSet resultSet) throws SQLException {
+        return new User(resultSet.getString("user_name"),
+                resultSet.getString("email"),
+                resultSet.getString("hashed_password"));
     }
 }

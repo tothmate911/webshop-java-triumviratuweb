@@ -14,10 +14,6 @@ public class User {
         this.hashedPassword = hashedPassword;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -40,5 +36,17 @@ public class User {
 
     public String getHashedPassword() {
         return hashedPassword;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
