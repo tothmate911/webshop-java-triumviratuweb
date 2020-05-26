@@ -168,6 +168,19 @@ a:link, a:visited{
     height: 1200px;
     z-index: 2;
 }
+.loginModal {
+    background-color: darkgoldenrod;
+    border-radius: 30px;
+    position: fixed;
+    top: 5%;
+    left: 25%;
+    width: 600px;
+    height: 200px;
+    z-index: 2;
+}
+.login-form {
+    padding: 20px;
+}
 
 .registration-form {
     padding: 20px;

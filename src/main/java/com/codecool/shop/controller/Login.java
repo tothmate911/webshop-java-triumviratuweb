@@ -18,9 +18,14 @@ import java.io.IOException;
 public class Login extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       Cookie responseCookie = new Cookie("name","1234abcd");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+      String userName = req.getParameter("user_name");
+      if ( BCrypt.checkpw(req.getParameter("password")),){
+            Cookie responseCookie = new Cookie("name",userName);
+            resp.addCookie(responseCookie);
+        }
+      else {}
 
-        resp.addCookie(responseCookie);
+
         resp.sendRedirect("/");
     }}

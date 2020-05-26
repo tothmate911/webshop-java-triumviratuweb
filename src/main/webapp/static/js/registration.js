@@ -9,5 +9,5 @@ function main() {
 
     let registrationButton = document.getElementById("registration-button");
     registrationButton.addEventListener("click", openRegistrationModal);
-
-main()}
+}
+main()

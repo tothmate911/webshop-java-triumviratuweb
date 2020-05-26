@@ -1,10 +1,11 @@
-
-
-
 let loginbutton = document.getElementById("login-button");
 
 function loginProcess(){
-    window.location.href="/login"
+    const loginModal = document.getElementById("login-modal");
+    loginModal.classList.remove("hide");
+    loginModal.classList.add("display");
 }
 
-loginbutton.addEventListener("click",loginbutton )
+
+
+loginbutton.addEventListener("click",loginProcess )
