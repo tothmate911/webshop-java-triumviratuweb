@@ -28,7 +28,11 @@ public class UserPage extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
         HttpSession session = req.getSession();
-        String userName = session.getAttribute("name").toString();
+
+        String userName = null;
+        if (session.getAttribute("name") != null) {
+            userName = session.getAttribute("name").toString();
+        }
 
         UserDao userDataStore = UserDaoMem.getInstance();
         User user = userDataStore.findByName(userName);
@@ -52,7 +56,7 @@ public class UserPage extends HttpServlet {
 
             context.setVariable("purchases", purchases);
 
-            engine.process("Userpage.html", context, resp.getWriter());
+            engine.process("userpage.html", context, resp.getWriter());
         }
     }
 }
