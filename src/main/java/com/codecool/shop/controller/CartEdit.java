@@ -22,6 +22,7 @@ public class CartEdit extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         CartDao cartDataStore = CartDaoMem.getInstance();
+        int user_id = 1;
 
         JSONObject jsonObject = Util.apiRequestReader(req);
         int productId = jsonObject.getInt("id");
@@ -30,9 +31,9 @@ public class CartEdit extends HttpServlet {
         Product product = productDataStore.find(productId);
         String cartIsFull = null;
         if (editType.equals("add")) {
-            cartIsFull = cartDataStore.add(product);
+            cartIsFull = cartDataStore.add(product, user_id);
         } else if (editType.equals("remove")) {
-            cartDataStore.remove(product);
+            cartDataStore.remove(product, user_id);
         }
         try(PrintWriter out = resp.getWriter()){
             resp.setContentType("application/json");
@@ -41,7 +42,7 @@ public class CartEdit extends HttpServlet {
             JSONObject response_data = new JSONObject();
             response_data.append("id", product.getId());
             response_data.append("status", cartIsFull);
-            response_data.append("fullPrice", cartDataStore.getFullPrice() + " $");
+            response_data.append("fullPrice", cartDataStore.getFullPrice(user_id) + " $");
             out.print(response_data.toString());
         }
     }

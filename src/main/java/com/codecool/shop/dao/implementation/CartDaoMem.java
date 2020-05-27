@@ -24,21 +24,21 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public String add(Product product) {
-        if (getSize() < 10){
+    public String add(Product product, int user_id) {
+        if (getSize(user_id) < 10){
             int quantity = Util.productQuantityInCart(product.getId(), dataSource);
             if(quantity == 0){
                 String query = "INSERT INTO cart (user_id, prod_id, prod_quantity) VALUES (?, ?, 1)";
                 try(Connection conn = dataSource.getConnection();
                     PreparedStatement statement = conn.prepareStatement(query)){
-                    statement.setInt(1, 1);
+                    statement.setInt(1, user_id);
                     statement.setInt(2, product.getId());
                     statement.execute();
                 } catch (Exception e){
                     System.out.println("In CartDaoMem add: " + e);
                 }
             } else {
-                update(product, true);
+                update(product, true, user_id);
             }
             return "not full";
         } else {
@@ -47,19 +47,20 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public void remove(Product product) {
+    public void remove(Product product, int user_id) {
         int quantity = Util.productQuantityInCart(product.getId(), dataSource);
         if (quantity <= 1){
-            String query = "DELETE FROM cart WHERE user_id = 1 AND prod_id = ?;";
+            String query = "DELETE FROM cart WHERE user_id = ? AND prod_id = ?;";
             try(Connection conn = dataSource.getConnection();
                 PreparedStatement statement = conn.prepareStatement(query)){
-                statement.setInt(1, product.getId());
+                statement.setInt(1, user_id);
+                statement.setInt(2, product.getId());
                 statement.execute();
             } catch (Exception e) {
                 System.out.println("In CartDaoMem remove: " + e);
             }
         } else {
-            update(product, false);
+            update(product, false, user_id);
         }
     }
 
@@ -76,9 +77,9 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public void update(Product product, boolean plus) {
+    public void update(Product product, boolean plus, int user_id) {
         int quantity = Util.productQuantityInCart(product.getId(), dataSource);
-        String query = "UPDATE cart SET prod_quantity = ? WHERE prod_id = ?;";
+        String query = "UPDATE cart SET prod_quantity = ? WHERE prod_id = ? AND user_id = ?;";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement statement = conn.prepareStatement(query)){
             if(plus){
@@ -87,6 +88,7 @@ public class CartDaoMem implements CartDao {
                 statement.setInt(1, quantity - 1);
             }
             statement.setInt(2, product.getId());
+            statement.setInt(3, user_id);
             statement.execute();
         } catch (Exception e){
             System.out.println("In CartDaoMem update: " + e);
@@ -94,12 +96,13 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public Map<Product, Integer> getAll() {
+    public Map<Product, Integer> getAll(int user_id) {
         Map<Product, Integer> cartMap = new HashMap<>();
-        String query = "SELECT * FROM cart WHERE user_id = 1;";
+        String query = "SELECT * FROM cart WHERE user_id = ?;";
         try(Connection conn = dataSource.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet result = statement.executeQuery()){
+            PreparedStatement statement = conn.prepareStatement(query)){
+            statement.setInt(1, user_id);
+            ResultSet result = statement.executeQuery();
             while (result.next()){
                 cartMap.put(productDaoMem.find(result.getInt("prod_id")),
                         result.getInt("prod_quantity"));
@@ -132,8 +135,8 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public int getSize() {
-        Map<Product, Integer> products = getAll();
+    public int getSize(int user_id) {
+        Map<Product, Integer> products = getAll(user_id);
         int cartSize = 0;
         for (int i: products.values()){
             cartSize += i;
@@ -142,8 +145,8 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public float getFullPrice(){
-        Map<Product, Integer> products = getAll();
+    public float getFullPrice(int user_id){
+        Map<Product, Integer> products = getAll(user_id);
         float fullPrice = 0;
         for (Map.Entry<Product, Integer> entry: products.entrySet()){
             fullPrice += entry.getKey().getFloatPrice() * entry.getValue();

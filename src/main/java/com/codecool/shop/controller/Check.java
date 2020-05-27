@@ -18,6 +18,7 @@ import java.util.HashMap;
 @WebServlet(urlPatterns = {"/check"})
 public class Check extends HttpServlet {
     private final CartDao cartDataStore = CartDaoMem.getInstance();
+    private final BuyerDataDaoMem buyerDataDaoMem = BuyerDataDaoMem.getInstance();
 
     @Override
     protected void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
@@ -26,10 +27,18 @@ public class Check extends HttpServlet {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-
+        HashMap<String, Object> buyerData = buyerDataDaoMem.find(user_id);
+        if (buyerData.get("buyer_id") != null){
+            context.setVariable("fname", buyerData.get("first_name"));
+            context.setVariable("lname", buyerData.get("last_name"));
+            context.setVariable("phone_number", buyerData.get("phone_number"));
+            context.setVariable("email", buyerData.get("email"));
+            context.setVariable("billing_address", buyerData.get("billing_address"));
+            context.setVariable("shipping_address", buyerData.get("shipping_address"));
+        }
         context.setVariable("user_id", user_id);
-        context.setVariable("cartList", cartDataStore.getAll());
-        context.setVariable("cartSize", cartDataStore.getSize());
+        context.setVariable("cartList", cartDataStore.getAll(user_id));
+        context.setVariable("cartSize", cartDataStore.getSize(user_id));
 
         engine.process("product/check.html", context, resp.getWriter());
 

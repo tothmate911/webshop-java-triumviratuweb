@@ -31,6 +31,7 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String categoryType = req.getParameter("category");
         String supplierType = req.getParameter("supplier");
+        int user_id = 1;
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
@@ -60,9 +61,9 @@ public class ProductController extends HttpServlet {
             context.setVariable("products", productDataStore.getAll());
         }
 
-        context.setVariable("cartList", cart.getAll());
-        context.setVariable("cartSize", cart.getSize());
-        context.setVariable("cartFullPrice", cart.getFullPrice());
+        context.setVariable("cartList", cart.getAll(user_id));
+        context.setVariable("cartSize", cart.getSize(user_id));
+        context.setVariable("cartFullPrice", cart.getFullPrice(user_id));
         context.setVariable("categoryIdFiltered", categoryType != null && !categoryType.equals("All") ? categoryType : -1);
         context.setVariable("supplierIdFiltered", supplierType != null && !supplierType.equals("All") ? supplierType : -1);
 

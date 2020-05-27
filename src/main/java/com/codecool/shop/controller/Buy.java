@@ -23,26 +23,24 @@ public class Buy extends HttpServlet {
     private final CartDao cartDataStore = CartDaoMem.getInstance();
     private final BuyerDataDaoMem buyerDataDaoMem = BuyerDataDaoMem.getInstance();
     private final PaymentDaoMem paymentDaoMem = PaymentDaoMem.getInstance();
+    private final int user_id = 1;
 
     @Override
     protected void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        int user_id = Integer.parseInt(req.getParameter("id"));
-
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
         context.setVariable("user_id", user_id);
-        context.setVariable("cartList", cartDataStore.getAll());
-        context.setVariable("cartSize", cartDataStore.getSize());
+        context.setVariable("cartList", cartDataStore.getAll(user_id));
+        context.setVariable("cartSize", cartDataStore.getSize(user_id));
 
         engine.process("product/buy.html", context, resp.getWriter());
     }
 
     @Override
     protected void doPost (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        int user_id = Integer.parseInt(req.getParameter("user_id"));
         HashMap<String, Object> buyerData = buyerDataDaoMem.find(user_id);
-        float fullPrice = cartDataStore.getFullPrice();
+        float fullPrice = cartDataStore.getFullPrice(user_id);
         String payType = null;
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         String payCurrency = "USD";
