@@ -23,8 +23,8 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = createUserObject(req);
-
         UserDao userDataStore = UserDaoMem.getInstance();
+        user.setId(userDataStore.getId(user.getUsername()));
         userDataStore.add(user);
         addBuyer(req, user, userDataStore);
 

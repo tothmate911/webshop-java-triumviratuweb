@@ -1,5 +1,7 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.dao.implementation.UserDaoMem;
 import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -7,6 +9,7 @@ import com.codecool.shop.model.Supplier;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.sql.Connection;
@@ -86,5 +89,22 @@ public class Util {
             System.out.println("In Util apiRequestReader: " + e);
         }
         return new JSONObject(jb.toString());
+    }
+
+    public static int userIdByUserName(HttpSession session){
+        UserDao userDao = UserDaoMem.getInstance();
+        int user_id = 0;
+        if(session!=null) {
+            user_id = userDao.findByName(userNameFromSession(session)).getId();
+        }
+        return user_id;
+    }
+
+    public static String userNameFromSession(HttpSession session){
+        String userName = null;
+        if (session != null){
+            userName = (String) session.getAttribute("name");
+        }
+        return userName;
     }
 }

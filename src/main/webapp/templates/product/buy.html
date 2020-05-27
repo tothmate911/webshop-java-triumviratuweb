@@ -40,7 +40,6 @@
 <div th:replace="header.html :: copy"></div>
 <div class="container">
     <form action="/buy/" method="post" id="buy_form">
-        <input type="hidden" th:value="${user_id}" name="user_id">
         <input type="checkbox" id="payPal" name="payPal" checked>
         <label for="payPal" class="label"><b>Payment with PayPal account</b></label>
         <div id="payPalContainer">

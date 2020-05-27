@@ -2,8 +2,10 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.dao.implementation.UserDaoMem;
 import com.codecool.shop.model.Product;
 import org.json.JSONObject;
 
@@ -24,7 +26,8 @@ public class CartController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         CartDao cartDataStore = CartDaoMem.getInstance();
-        int user_id = 1;
+        HttpSession session = req.getSession(false);
+        int user_id = Util.userIdByUserName(session);
 
         JSONObject jsonObject = Util.apiRequestReader(req);
 
