@@ -27,7 +27,7 @@ public class UserDaoMem implements UserDao {
     @Override
     public void add(User user) {
         String query = "INSERT INTO web_user (user_name, email, hashed_password, user_is_active) " +
-                "VALUES (?, ?, ?, FALSE)";
+                "VALUES (?, ?, ?, True)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, user.getUsername());
@@ -46,6 +46,22 @@ public class UserDaoMem implements UserDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return createUserObject(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    public User findByName(String username) {
+        String query = "SELECT * FROM web_user WHERE user_name = ?;";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return createUserObject(resultSet);
