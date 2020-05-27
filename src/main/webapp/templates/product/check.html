@@ -47,8 +47,8 @@
         <input type="text" id="fname" name="fname" placeholder="First Name" th:value="${fname}" required><br>
         <label class="label" for="lname"><b>Last Name:</b></label><br>
         <input type="text" id="lname" name="lname" placeholder="Last Name" th:value="${lname}" required><br>
-        <label class="label" for="phonenum"><b>Phone number(in the form +99-99/999-9999):</b></label><br>
-        <input type="tel" id="phonenum" name="phonenum" th:value="${phone_number}" required pattern="+[0-9]{2}-[0-9]{2}/[0-9]{3}-[0-9]{4}" placeholder="+00-00/000-0000"><br>
+        <label class="label" for="phonenum"><b>Phone number(in the form 99-99/999-9999):</b></label><br>
+        <input type="tel" id="phonenum" name="phonenum" th:value="${phone_number}" required pattern="^\d{2}-\d{2}/\d{3}-\d{4}$" placeholder="00-00/000-0000"><br>
         <label class="label" for="email"><b>E-mail address:</b></label><br>
         <input type="email" id="email" name="email" th:value="${email}" required placeholder="example@fantasy.com"><br>
         <label class="label" for="billing_address"><b>Billing Address:</b></label><br>
