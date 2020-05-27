@@ -34,7 +34,7 @@ CREATE TABLE web_user(
     user_id SERIAL PRIMARY KEY,
     user_name VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(40) UNIQUE NOT NULL,
-    password TEXT NOT NULL,
+    hashed_password TEXT NOT NULL,
     user_is_active BOOLEAN NOT NULL
 );
 
@@ -47,7 +47,8 @@ CREATE TABLE cart(
 CREATE TABLE buyer_data(
     buyer_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES web_user(user_id) NOT NULL,
-    buyer_name VARCHAR(40) NOT NULL,
+    buyer_first_name VARCHAR(40) NOT NULL,
+    buyer_last_name VARCHAR(40) NOT NULL,
     buyer_email VARCHAR(40) NOT NULL,
     buyer_phone_number VARCHAR(20) NOT NULL,
     buyer_billing_address TEXT NOT NULL,
@@ -97,4 +98,4 @@ INSERT INTO product (prod_name, prod_description, price, currency, image_file, c
         ('Xenomorph Tail', 'Long,nimble,deadly!', 80, 'USD', 'product_11.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Sci-Fi')),
         ('DragonBalls', 'You do not need to search the world for a wish', 700, 'USD', 'product_12.jpg', (SELECT cat_id FROM prod_category WHERE cat_name = 'Accessories'), (SELECT sup_id FROM prod_supplier WHERE sup_name = 'Fantasy'));
 
-INSERT INTO web_user (user_name, email, password, user_is_active) VALUES ('admin', 'admin@admin.com', 'Password', true);
+INSERT INTO web_user (user_name, email, hashed_password, user_is_active) VALUES ('admin', 'admin@admin.com', 'Password', true);

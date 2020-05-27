@@ -114,10 +114,10 @@ body{
 }
 .buttons{
     border-radius: 20px;
-    width: 200px;
+    width: 600px;
     height: 40px;
     display: inline-grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 25% 25% 25%;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -157,6 +157,33 @@ a:link, a:visited{
     height: 500px;
     z-index: 2;
 }
+
+.registrationModal {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+
+    background-color: darkgoldenrod;
+    position: fixed;
+    top: 5%;
+    left: 25%;
+    width: 800px;
+    z-index: 2;
+}
+
+#registration-button {
+    font: 25px black bold;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+}
+
+#registration-button:hover {
+    cursor: pointer;
+}
+
+.registration-form {
+    padding: 20px;
+}
+
 .hide{
     display: none;
 }
@@ -255,6 +282,7 @@ a:link, a:visited{
     left: 10px;
     width: 30%;
 }
+
 
 #check_form {
     line-height: 1.5;
