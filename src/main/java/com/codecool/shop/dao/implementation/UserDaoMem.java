@@ -33,6 +33,7 @@ public class UserDaoMem implements UserDao {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getEmailAddress());
             preparedStatement.setString(3, user.getHashedPassword());
+            preparedStatement.setBoolean(3, true);
 
             preparedStatement.execute();
         } catch (SQLException e) {

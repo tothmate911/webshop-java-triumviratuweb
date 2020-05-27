@@ -114,7 +114,7 @@ body{
 }
 .buttons{
     border-radius: 20px;
-    width: 400px;
+    width: 600px;
     height: 40px;
     display: inline-grid;
     grid-template-columns: 25% 25% 25% 25%;
@@ -167,6 +167,16 @@ a:link, a:visited{
     width: 800px;
     height: 1200px;
     z-index: 2;
+}
+
+#registration-button {
+    font: 25px black bold;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+}
+
+#registration-button:hover {
+    cursor: pointer;
 }
 
 .registration-form {
@@ -271,6 +281,7 @@ a:link, a:visited{
     left: 10px;
     width: 30%;
 }
+
 
 #check_form {
     line-height: 1.5;

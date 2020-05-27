@@ -7,6 +7,7 @@ public class User {
     private String lastName;
     private String hashedPassword;
     private Integer id;
+    private boolean isActive;
 
     public User(String username, String emailAddress, String hashedPassword) {
         this.username = username;

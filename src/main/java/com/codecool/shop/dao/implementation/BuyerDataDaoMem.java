@@ -5,8 +5,7 @@ import com.codecool.shop.controller.DbConnect;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.HashMap;
+import java.util.Map;
 
 public class BuyerDataDaoMem {
     private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
@@ -19,7 +18,7 @@ public class BuyerDataDaoMem {
         return instance;
     }
 
-    public void add(HashMap<String, String> buyerData){
+    public void add(Map<String, String> buyerData){
         String query = "INSERT INTO buyer_data (user_id, buyer_name, buyer_email, buyer_phone_number, buyer_billing_address, buyer_shipping_address) VALUES " +
                 "(?, ?, ?, ?, ?, ?);";
         try(Connection conn = dataSource.getConnection();
