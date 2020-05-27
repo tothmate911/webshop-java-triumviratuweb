@@ -26,17 +26,20 @@ public class Registration extends HttpServlet {
         UserDao userDataStore = UserDaoMem.getInstance();
         userDataStore.add(user);
 
-//        BuyerDataDaoMem buyerDataStore = BuyerDataDaoMem.getInstance();
-//        Map<String, String> buyerData = createBuyerData(req);
-//        buyerDataStore.add(buyerData);
+        int user_id = userDataStore.getId(user.getUsername());
+
+        BuyerDataDaoMem buyerDataStore = BuyerDataDaoMem.getInstance();
+        Map<String, String> buyerData = createBuyerData(req, user_id);
+        buyerDataStore.add(buyerData);
 
         resp.sendRedirect("/");
     }
 
-    private Map<String, String> createBuyerData(HttpServletRequest req) {
+    private Map<String, String> createBuyerData(HttpServletRequest req, int user_id) {
         Map<String, String> buyerData = new HashMap<>();
-        buyerData.put("fname", req.getParameter("user_name"));
-        buyerData.put("lname", req.getParameter("user_name"));
+        buyerData.put("id", String.valueOf(user_id));
+        buyerData.put("fname", req.getParameter("fname"));
+        buyerData.put("lname", req.getParameter("lname"));
         buyerData.put("email", req.getParameter("email"));
         buyerData.put("phone_number", req.getParameter("phone-number"));
         buyerData.put("billing_address", req.getParameter("billing-address"));
