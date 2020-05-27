@@ -27,13 +27,12 @@ public class UserDaoMem implements UserDao {
     @Override
     public void add(User user) {
         String query = "INSERT INTO web_user (user_name, email, hashed_password, user_is_active) " +
-                "VALUES (?, ?, ?, FALSE)";
+                "VALUES (?, ?, ?, TRUE)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getEmailAddress());
             preparedStatement.setString(3, user.getHashedPassword());
-            preparedStatement.setBoolean(3, true);
 
             preparedStatement.execute();
         } catch (SQLException e) {
