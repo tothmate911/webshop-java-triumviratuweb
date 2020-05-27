@@ -101,6 +101,23 @@ public class UserDaoMem implements UserDao {
         return users;
     }
 
+    @Override
+    public Integer getId(String userName) {
+        String query = "SELECT user_id FROM web_user WHERE user_name = ?;";
+        try(Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                if (resultSet.next()) {
+                    return resultSet.getInt("user_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private User createUserObject(ResultSet resultSet) throws SQLException {
         return new User(resultSet.getString("user_name"),
                 resultSet.getString("email"),
