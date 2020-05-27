@@ -35,7 +35,6 @@ public class ProductController extends HttpServlet {
         String userName = null;
         if(session!=null) {
             userName = (String) session.getAttribute("name");
-            System.out.println(userName);
         }
         String categoryType = req.getParameter("category");
         String supplierType = req.getParameter("supplier");
