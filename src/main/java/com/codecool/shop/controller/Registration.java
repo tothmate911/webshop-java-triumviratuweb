@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,14 +26,19 @@ public class Registration extends HttpServlet {
 
         UserDao userDataStore = UserDaoMem.getInstance();
         userDataStore.add(user);
+        addBuyer(req, user, userDataStore);
 
+        HttpSession session = req.getSession();
+        session.setAttribute("name", user.getUsername());
+
+        resp.sendRedirect("/");
+    }
+
+    private void addBuyer(HttpServletRequest req, User user, UserDao userDataStore) {
         int user_id = userDataStore.getId(user.getUsername());
-
         BuyerDataDaoMem buyerDataStore = BuyerDataDaoMem.getInstance();
         Map<String, String> buyerData = createBuyerData(req, user_id);
         buyerDataStore.add(buyerData);
-
-        resp.sendRedirect("/");
     }
 
     private Map<String, String> createBuyerData(HttpServletRequest req, int user_id) {
