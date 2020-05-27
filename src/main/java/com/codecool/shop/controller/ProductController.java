@@ -13,6 +13,8 @@ import com.codecool.shop.model.Product;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import javax.servlet.http.HttpSession;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +31,12 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        String userName = null;
+        if(session!=null) {
+            userName = (String) session.getAttribute("name");
+            System.out.println(userName);
+        }
         String categoryType = req.getParameter("category");
         String supplierType = req.getParameter("supplier");
         int user_id = 1;
@@ -61,6 +69,7 @@ public class ProductController extends HttpServlet {
             context.setVariable("products", productDataStore.getAll());
         }
 
+        context.setVariable("username",userName);
         context.setVariable("cartList", cart.getAll(user_id));
         context.setVariable("cartSize", cart.getSize(user_id));
         context.setVariable("cartFullPrice", cart.getFullPrice(user_id));

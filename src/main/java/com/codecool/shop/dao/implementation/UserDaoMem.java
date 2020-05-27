@@ -56,6 +56,22 @@ public class UserDaoMem implements UserDao {
         }
         return null;
     }
+    @Override
+    public User findByName(String username) {
+        String query = "SELECT * FROM web_user WHERE user_name = ?;";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return createUserObject(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public void remove(int id) {

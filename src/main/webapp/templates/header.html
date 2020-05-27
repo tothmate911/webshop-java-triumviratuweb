@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<script src="/static/js/login.js" defer></script>
 <body>
 
 <div class="text-center header" th:fragment="copy">
     <div class="header_image"><img src="/static/img/header_title2.png" alt=""></div>
+
     <div class="buttons">
         <a class="home-button" href="/">
             <div><strong>Home</strong></div>
@@ -14,8 +16,12 @@
                 <i id="cartCounter" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}"
                    th:style="'color: red; font-weight: bold'"></i></span>
         </div>
-        <div id="registration-button">Registration</div>
-        <div id="login-button">Login</div>
+        <div id="registration-button" th:if="${username == null}">Registration</div>
+        <div class="username" th:unless="${username == null}" th:text="${username}"></div>
+
+
+        <div id="login-button" th:if="${username == null}">Login</div>
+        <a id="logout-button" href="/logout" th:unless="${username == null}">Logout</a>
     </div>
 </div>
 </body>
