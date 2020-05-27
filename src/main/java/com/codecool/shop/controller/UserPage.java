@@ -33,7 +33,6 @@ public class UserPage extends HttpServlet {
         UserDao userDataStore = UserDaoMem.getInstance();
         User user = userDataStore.findByName(userName);
 
-
         if (user != null) {
             BuyerDataDaoMem buyerDataStore = BuyerDataDaoMem.getInstance();
             Map<String, Object> buyerData = buyerDataStore.find(user.getId());
@@ -54,7 +53,6 @@ public class UserPage extends HttpServlet {
             context.setVariable("purchases", purchases);
 
             engine.process("Userpage.html", context, resp.getWriter());
-
         }
     }
 }
