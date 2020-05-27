@@ -20,7 +20,7 @@ public class BuyerDataDaoMem {
         return instance;
     }
 
-    public void add(HashMap<String, String> buyerData){
+    public void add(Map<String, String> buyerData){
         String query = "INSERT INTO buyer_data (user_id, buyer_first_name, buyer_last_name, buyer_email, buyer_phone_number, buyer_billing_address, buyer_shipping_address) VALUES " +
                 "(?, ?, ?, ?, ?, ?, ?);";
         try(Connection conn = dataSource.getConnection();

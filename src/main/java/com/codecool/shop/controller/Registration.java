@@ -35,8 +35,8 @@ public class Registration extends HttpServlet {
 
     private Map<String, String> createBuyerData(HttpServletRequest req) {
         Map<String, String> buyerData = new HashMap<>();
-        buyerData.put("first_name", req.getParameter("user_name"));
-        buyerData.put("last_name", req.getParameter("user_name"));
+        buyerData.put("fname", req.getParameter("user_name"));
+        buyerData.put("lname", req.getParameter("user_name"));
         buyerData.put("email", req.getParameter("email"));
         buyerData.put("phone_number", req.getParameter("phone-number"));
         buyerData.put("billing_address", req.getParameter("billing-address"));
