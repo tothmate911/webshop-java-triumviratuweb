@@ -21,7 +21,7 @@
 
 
         <div id="login-button" th:if="${username == null}">Login</div>
-        <div id="logout-button" th:unless="${username == null}">Logout</div>
+        <a id="logout-button" href="/logout" th:unless="${username == null}">Logout</a>
     </div>
 </div>
 </body>
