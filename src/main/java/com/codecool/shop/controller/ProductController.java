@@ -13,6 +13,8 @@ import com.codecool.shop.model.Product;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import javax.servlet.http.HttpSession;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,11 +31,18 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        String userName = null;
+        if(session!=null) {
+            userName = (String) session.getAttribute("name");
+            System.out.println(userName);
+        }
         String categoryType = req.getParameter("category");
         String supplierType = req.getParameter("supplier");
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+
 
         ProductDao productDataStore = ProductDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
@@ -50,9 +59,9 @@ public class ProductController extends HttpServlet {
                 products = productDataStore.getAll();
             } else if (!categoryType.equals("All") && supplierType.equals("All")) {
                 products = productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryType)));
-            } else if (categoryType.equals("All") && !supplierType.equals("All")){
+            } else if (categoryType.equals("All") && !supplierType.equals("All")) {
                 products = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)));
-            } else if (!categoryType.equals("All") && !supplierType.equals("All")){
+            } else if (!categoryType.equals("All") && !supplierType.equals("All")) {
                 products = productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierType)), productCategoryDataStore.find(Integer.parseInt(categoryType)));
             }
             context.setVariable("products", products);
@@ -60,6 +69,8 @@ public class ProductController extends HttpServlet {
             context.setVariable("products", productDataStore.getAll());
         }
 
+
+        context.setVariable("username",userName);
         context.setVariable("cartList", cart.getAll());
         context.setVariable("cartSize", cart.getSize());
         context.setVariable("cartFullPrice", cart.getFullPrice());

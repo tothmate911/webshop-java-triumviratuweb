@@ -2,15 +2,15 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.dao.implementation.UserDaoMem;
-import com.codecool.shop.model.User;
-import com.codecool.shop.dao.UserDao;
 import org.mindrot.jbcrypt.BCrypt;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.http.*;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -27,11 +27,8 @@ public class Login extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("name", userName);
             context.setVariable("username", userName);
-            System.out.println(session.getAttributeNames());
-            System.out.println("find");
         } else {
             context.setVariable("loginMassage", "Invalid username or password!");
-            System.out.println("not find");
         }
         resp.sendRedirect("/");
     }
