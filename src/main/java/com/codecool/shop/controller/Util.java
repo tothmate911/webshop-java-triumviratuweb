@@ -62,12 +62,13 @@ public class Util {
         }
     }
 
-    public static int productQuantityInCart(int id, DataSource dataSource) {
-        String query = "SELECT prod_quantity FROM cart WHERE prod_id = ? AND user_id = 1;";
+    public static int productQuantityInCart(int id, int userid, DataSource dataSource) {
+        String query = "SELECT prod_quantity FROM cart WHERE prod_id = ? AND user_id = ?;";
         int quantity = 0;
         try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, id);
+            statement.setInt(2, userid);
             ResultSet result = statement.executeQuery();
             if (result.next()){
                 quantity = result.getInt("prod_quantity");

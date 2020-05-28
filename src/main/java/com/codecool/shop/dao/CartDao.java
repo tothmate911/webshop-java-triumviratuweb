@@ -14,5 +14,5 @@ public interface CartDao {
     List<Integer> getAllProductIdByUserId(int id);
     int getSize(int user_id);
     float getFullPrice(int user_id);
-    int getQuantityByProduct(int id);
+    int getQuantityByProduct(int prodid,int userid);
 }

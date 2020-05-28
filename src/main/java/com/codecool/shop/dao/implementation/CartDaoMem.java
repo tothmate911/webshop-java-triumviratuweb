@@ -26,7 +26,7 @@ public class CartDaoMem implements CartDao {
     @Override
     public String add(Product product, int user_id) {
         if (getSize(user_id) < 10){
-            int quantity = Util.productQuantityInCart(product.getId(), dataSource);
+            int quantity = Util.productQuantityInCart(product.getId(),user_id, dataSource);
             if(quantity == 0){
                 String query = "INSERT INTO cart (user_id, prod_id, prod_quantity) VALUES (?, ?, 1)";
                 try(Connection conn = dataSource.getConnection();
@@ -48,7 +48,7 @@ public class CartDaoMem implements CartDao {
 
     @Override
     public void remove(Product product, int user_id) {
-        int quantity = Util.productQuantityInCart(product.getId(), dataSource);
+        int quantity = Util.productQuantityInCart(product.getId(),user_id, dataSource);
         if (quantity <= 1){
             String query = "DELETE FROM cart WHERE user_id = ? AND prod_id = ?;";
             try(Connection conn = dataSource.getConnection();
@@ -78,7 +78,7 @@ public class CartDaoMem implements CartDao {
 
     @Override
     public void update(Product product, boolean plus, int user_id) {
-        int quantity = Util.productQuantityInCart(product.getId(), dataSource);
+        int quantity = Util.productQuantityInCart(product.getId(), user_id, dataSource);
         String query = "UPDATE cart SET prod_quantity = ? WHERE prod_id = ? AND user_id = ?;";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement statement = conn.prepareStatement(query)){
@@ -155,7 +155,7 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public int getQuantityByProduct(int id) {
-        return Util.productQuantityInCart(id, dataSource);
+    public int getQuantityByProduct(int productid,int userid) {
+        return Util.productQuantityInCart(productid,userid, dataSource);
     }
 }

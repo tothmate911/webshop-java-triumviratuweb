@@ -199,3 +199,5 @@ function api_post(url, data, callback) {
         .then(response => response.json())
         .then(data => callback(data))
 }
+
+// Cursor Glow starts here

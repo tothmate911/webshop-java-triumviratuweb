@@ -45,7 +45,7 @@ public class CartController extends HttpServlet {
             response_data.append("price", product.getPrice());
             response_data.append("id", product.getId());
             response_data.append("image", product.getImageFile());
-            response_data.append("quantity", cartDataStore.getQuantityByProduct(product.getId()));
+            response_data.append("quantity", cartDataStore.getQuantityByProduct(product.getId(),user_id));
             out.print(response_data.toString());
         }
     }
