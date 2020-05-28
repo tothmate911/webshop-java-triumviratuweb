@@ -74,12 +74,6 @@ public class UserPage extends HttpServlet {
         String emailAddress = req.getParameter("email");
         String hashedPassword = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt(12));
 
-        String firstName = req.getParameter("fname");
-        String lastName = req.getParameter("lname");
-        String phoneNumber = req.getParameter("phonenum");
-        String billingAddress = req.getParameter("billing_address");
-        String shippingAddress = req.getParameter("shipping_address");
-
         UserDao userDataStore = UserDaoMem.getInstance();
         User user = userDataStore.find(userId);
         user.setEmailAddress(emailAddress);
@@ -100,9 +94,9 @@ public class UserPage extends HttpServlet {
         buyerData.put("fname", req.getParameter("fname"));
         buyerData.put("lname", req.getParameter("lname"));
         buyerData.put("email", req.getParameter("email"));
-        buyerData.put("phone_number", req.getParameter("phone-number"));
-        buyerData.put("billing_address", req.getParameter("billing-address"));
-        buyerData.put("shipping_address", req.getParameter("shipping-address"));
+        buyerData.put("phone_number", req.getParameter("phonenum"));
+        buyerData.put("billing_address", req.getParameter("billing_address"));
+        buyerData.put("shipping_address", req.getParameter("shipping_address"));
 
         return buyerData;
     }
