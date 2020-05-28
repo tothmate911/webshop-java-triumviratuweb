@@ -3,11 +3,11 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.controller.DbConnect;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentDaoMem {
     private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
@@ -84,5 +84,34 @@ public class PaymentDaoMem {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<Map<String, Object>> getPurchaseHistory(int userId) {
+        String query = "SELECT * FROM buyer_data\n" +
+                "JOIN pay p on buyer_data.buyer_id = p.buyer_id\n" +
+                "WHERE user_id = ?;\n";
+
+        List<Map<String, Object>> purchases = new ArrayList<>();
+
+        try(Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Map<String, Object> purchase = new HashMap<>();
+                    purchase.put("pay_id", resultSet.getInt("pay_id"));
+                    purchase.put("pay_date", resultSet.getDate("pay_date"));
+                    purchase.put("pay_type", resultSet.getString("pay_type"));
+                    purchase.put("full_price", resultSet.getDouble("full_price"));
+                    purchase.put("pay_currency", resultSet.getString("pay_currency"));
+
+                    purchases.add(purchase);
+                }
+                return purchases;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
