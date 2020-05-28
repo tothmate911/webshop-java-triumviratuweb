@@ -46,12 +46,6 @@ public class UserPage extends HttpServlet {
             PaymentDaoMem paymentDataStore = PaymentDaoMem.getInstance();
             List<Map<String, Object>> purchases = paymentDataStore.getPurchaseHistory(user.getId());
 
-            for (Map<String, Object> purchase : purchases) {
-                for (String key : purchase.keySet()) {
-                    System.out.println(key + " " + purchase.get(key));
-                }
-            }
-
             context.setVariable("username", user.getUsername());
             context.setVariable("email", user.getEmailAddress());
 
