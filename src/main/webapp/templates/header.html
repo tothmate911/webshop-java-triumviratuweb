@@ -13,11 +13,11 @@
         <div id="cartOpen" class="shopping-cart" th:style="${cartList.size() == 0 ? 'color: black': 'color: red'}">
             <span class="fa fa-shopping-cart">
                 <i id="cartCounter" th:if="${cartList.size() == 0}"></i>
-                <i id="cartCounter" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartSize}"
+                <i id="cartCounter" th:unless="${cartList.size() == 0}" th:text="' ' + ${cartList.size()}"
                    th:style="'color: red; font-weight: bold'"></i></span>
         </div>
         <div id="registration-button" th:if="${username == null}">Registration</div>
-        <a  href="/userpage" class="username" th:unless="${username == null}" th:text="${username}"></a>
+        <a href="/userpage" class="username" th:unless="${username == null}" th:text="${username}"></a>
 
         <div id="login-button" th:if="${username == null}">Login</div>
         <a id="login-button" href="/logout" th:unless="${username == null}">Logout</a>
