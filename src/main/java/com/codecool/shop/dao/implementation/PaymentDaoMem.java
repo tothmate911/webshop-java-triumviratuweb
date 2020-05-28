@@ -103,7 +103,7 @@ public class PaymentDaoMem {
                     purchase.put("pay_date", resultSet.getDate("pay_date"));
                     purchase.put("pay_type", resultSet.getString("pay_type"));
                     purchase.put("full_price", resultSet.getDouble("full_price"));
-                    purchase.put("pay_currency", resultSet.getInt("pay_currency"));
+                    purchase.put("pay_currency", resultSet.getString("pay_currency"));
 
                     purchases.add(purchase);
                 }

@@ -1,8 +1,10 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.dao.implementation.BuyerDataDaoMem;
+import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.PaymentDaoMem;
 import com.codecool.shop.dao.implementation.UserDaoMem;
 import com.codecool.shop.model.User;
@@ -44,7 +46,13 @@ public class UserPage extends HttpServlet {
             PaymentDaoMem paymentDataStore = PaymentDaoMem.getInstance();
             List<Map<String, Object>> purchases = paymentDataStore.getPurchaseHistory(user.getId());
 
-            context.setVariable("user_name", user.getUsername());
+            for (Map<String, Object> purchase : purchases) {
+                for (String key : purchase.keySet()) {
+                    System.out.println(key + " " + purchase.get(key));
+                }
+            }
+
+            context.setVariable("username", user.getUsername());
             context.setVariable("email", user.getEmailAddress());
 
             context.setVariable("fname", buyerData.get("first_name"));
@@ -55,6 +63,9 @@ public class UserPage extends HttpServlet {
             context.setVariable("shipping_address", buyerData.get("shipping_address"));
 
             context.setVariable("purchases", purchases);
+
+            CartDao cart = CartDaoMem.getInstance();
+            context.setVariable("cartList", cart.getAll(user.getId()));
 
             engine.process("userpage.html", context, resp.getWriter());
         }
