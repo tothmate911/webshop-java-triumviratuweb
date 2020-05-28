@@ -8,6 +8,7 @@ import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.PaymentDaoMem;
 import com.codecool.shop.dao.implementation.UserDaoMem;
 import com.codecool.shop.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +50,7 @@ public class UserPage extends HttpServlet {
 
             context.setVariable("username", user.getUsername());
             context.setVariable("email", user.getEmailAddress());
+            context.setVariable("user_id", user.getId());
 
             context.setVariable("fname", buyerData.get("first_name"));
             context.setVariable("lname", buyerData.get("last_name"));
@@ -63,5 +66,44 @@ public class UserPage extends HttpServlet {
 
             engine.process("userpage.html", context, resp.getWriter());
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer userId = Integer.valueOf(req.getParameter("user_id"));
+        String emailAddress = req.getParameter("email");
+        String hashedPassword = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt(12));
+
+        String firstName = req.getParameter("fname");
+        String lastName = req.getParameter("lname");
+        String phoneNumber = req.getParameter("phonenum");
+        String billingAddress = req.getParameter("billing_address");
+        String shippingAddress = req.getParameter("shipping_address");
+
+        UserDao userDataStore = UserDaoMem.getInstance();
+        User user = userDataStore.find(userId);
+        user.setEmailAddress(emailAddress);
+        user.setHashedPassword(hashedPassword);
+        userDataStore.upDate(user);
+
+        BuyerDataDaoMem buyerDataStore = BuyerDataDaoMem.getInstance();
+        Map<String, String> buyerData = createBuyerData(req, userId);
+        buyerDataStore.update(buyerData);
+
+        resp.sendRedirect("/userpage");
+
+    }
+
+    private Map<String, String> createBuyerData(HttpServletRequest req, int user_id) {
+        Map<String, String> buyerData = new HashMap<>();
+        buyerData.put("id", String.valueOf(user_id));
+        buyerData.put("fname", req.getParameter("fname"));
+        buyerData.put("lname", req.getParameter("lname"));
+        buyerData.put("email", req.getParameter("email"));
+        buyerData.put("phone_number", req.getParameter("phone-number"));
+        buyerData.put("billing_address", req.getParameter("billing-address"));
+        buyerData.put("shipping_address", req.getParameter("shipping-address"));
+
+        return buyerData;
     }
 }

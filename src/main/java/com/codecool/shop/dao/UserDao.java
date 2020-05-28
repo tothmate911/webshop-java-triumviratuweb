@@ -20,4 +20,6 @@ public interface UserDao {
     List<User> getAll();
 
     Integer getId(String userName);
+
+    void upDate(User user);
 }
