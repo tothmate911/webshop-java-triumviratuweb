@@ -94,7 +94,7 @@ public class Util {
 
     public static int userIdByUserName(HttpSession session){
         UserDao userDao = UserDaoMem.getInstance();
-        int user_id = 0;
+        int user_id = 1;
         if(session!=null) {
             user_id = userDao.findByName(userNameFromSession(session)).getId();
         }
