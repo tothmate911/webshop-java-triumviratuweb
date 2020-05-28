@@ -24,9 +24,9 @@ public class Registration extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = createUserObject(req);
         UserDao userDataStore = UserDaoMem.getInstance();
-        user.setId(userDataStore.getId(user.getUsername()));
         userDataStore.add(user);
-        addBuyer(req, user, userDataStore);
+        user.setId(userDataStore.getId(user.getUsername()));
+        addBuyer(req, user);
 
         HttpSession session = req.getSession();
         session.setAttribute("name", user.getUsername());
@@ -34,10 +34,9 @@ public class Registration extends HttpServlet {
         resp.sendRedirect("/");
     }
 
-    private void addBuyer(HttpServletRequest req, User user, UserDao userDataStore) {
-        int user_id = userDataStore.getId(user.getUsername());
+    private void addBuyer(HttpServletRequest req, User user) {
         BuyerDataDaoMem buyerDataStore = BuyerDataDaoMem.getInstance();
-        Map<String, String> buyerData = createBuyerData(req, user_id);
+        Map<String, String> buyerData = createBuyerData(req, user.getId());
         buyerDataStore.add(buyerData);
     }
 

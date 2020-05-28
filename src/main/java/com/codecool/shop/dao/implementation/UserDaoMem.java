@@ -75,7 +75,9 @@ public class UserDaoMem implements UserDao {
 
     @Override
     public void remove(int id) {
-        String query = "DELETE FROM web_user WHERE user_id = ?";
+        String query = "UPDATE web_user\n" +
+                "SET user_is_active = FALSE\n" +
+                "WHERE user_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
@@ -116,6 +118,27 @@ public class UserDaoMem implements UserDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void upDate(User user) {
+        String query = "UPDATE web_user\n" +
+                "SET user_name = ?,\n" +
+                "    email = ?,\n" +
+                "    hashed_password = ?\n" +
+                "WHERE user_id = ?;";
+
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getEmailAddress());
+            preparedStatement.setString(3, user.getHashedPassword());
+            preparedStatement.setInt(4, user.getId());
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private User createUserObject(ResultSet resultSet) throws SQLException {

@@ -63,7 +63,7 @@ public class BuyerDataDaoMem {
         return buyer;
     }
 
-    public void update(HashMap<String, String> buyerData) {
+    public void update(Map<String, String> buyerData) {
         String query = "UPDATE buyer_data SET buyer_first_name = ?, buyer_last_name = ?, buyer_email = ?, buyer_phone_number = ?, buyer_billing_address = ?, buyer_shipping_address = ? " +
                 "WHERE user_id = ?;";
         try (Connection conn = dataSource.getConnection();
