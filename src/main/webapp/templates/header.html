@@ -17,10 +17,10 @@
                    th:style="'color: red; font-weight: bold'"></i></span>
         </div>
         <div id="registration-button" th:if="${username == null}">Registration</div>
-        <a href="/userpage" class="username" th:unless="${username == null}" th:text="${username}"></a>
+        <div id="registration-button" onclick="location.href='/userpage';" class="username" th:unless="${username == null}" th:text="${username}"></div>
 
         <div id="login-button" th:if="${username == null}">Login</div>
-        <a id="login-button" href="/logout" th:unless="${username == null}">Logout</a>
+        <div id="login-button" onclick="location.href='/logout';" th:unless="${username == null}">Logout</div>
 
     </div>
 </div>
