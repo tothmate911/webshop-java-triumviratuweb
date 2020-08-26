@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div id="login-modal" class="hide loginModal" th:fragment="copy">
+    <form method="post" action="/login" class="login-form">
+        <label for="user_name">username*</label>
+        <input type="text" id="user_name" name="user_name" required><br>
+
+        <label for="password">password*</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <input type="submit" value="Login">
+
+    </form>
+</div>
+
+</body>
+</html>

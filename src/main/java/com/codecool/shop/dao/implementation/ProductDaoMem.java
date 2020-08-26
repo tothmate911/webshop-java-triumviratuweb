@@ -1,18 +1,22 @@
 package com.codecool.shop.dao.implementation;
 
 
+import com.codecool.shop.controller.DbConnect;
+import com.codecool.shop.controller.Util;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProductDaoMem implements ProductDao {
-
-    private List<Product> data = new ArrayList<>();
+    private final DataSource dataSource = DbConnect.getDbConnect().getDataSource();
     private static ProductDaoMem instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -29,32 +33,102 @@ public class ProductDaoMem implements ProductDao {
 
     @Override
     public void add(Product product) {
-        product.setId(data.size() + 1);
-        data.add(product);
+        String query = "INSERT INTO product (prod_name, prod_description, price, currency, image_file, category_id, supplier_id) VALUES " +
+                "(?, ?, ?, ?, ?, ?, ?);";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)
+            ){
+            statement.setString(1, product.getName());
+            statement.setString(2, product.getDescription());
+            statement.setFloat(3, product.getDefaultPrice());
+            statement.setString(4, product.getDefaultCurrency().toString());
+            statement.setString(5, product.getImageFile());
+            statement.setInt(6, product.getProductCategory().getId());
+            statement.setInt(7, product.getSupplier().getId());
+            statement.execute();
+        } catch (Exception e) {
+            System.out.println("In ProductDaoMem add: " + e);
+        }
     }
 
     @Override
     public Product find(int id) {
-        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+        Product product = null;
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE prod_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)
+            ){
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            product = Util.createProduct(result);
+        }catch (Exception e){
+            System.out.println("In ProductDaoMem find: " + e);
+        }
+        return product;
     }
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        String query = "DELETE FROM product WHERE prod_id = ?;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)){
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (Exception e) {
+            System.out.println("In ProductDaoMem remove: " + e);
+        }
     }
 
     @Override
     public List<Product> getAll() {
-        return data;
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id;";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet result = statement.executeQuery()){
+            while (result.next()){
+                Product product = Util.createProduct(result);
+                products.add(product);
+            }
+        } catch (Exception e){
+            System.out.println("In ProductDaoMem getAll: " + e);
+        }
+        return products;
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        return data.stream().filter(t -> t.getSupplier().equals(supplier)).collect(Collectors.toList());
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE supplier_id = ?;";
+        Util.searchProductBySupplierOrCategory(dataSource, query, products, supplier);
+        return products;
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        return data.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE category_id = ?;";
+        Util.searchProductBySupplierOrCategory(dataSource, query, products, productCategory);
+        return products;
+    }
+
+    @Override
+    public List<Product> getBy(Supplier supplier, ProductCategory productCategory) {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT product.*, pc.*, ps.* FROM product LEFT JOIN prod_category pc on product.category_id = pc.cat_id LEFT JOIN prod_supplier ps on product.supplier_id = ps.sup_id WHERE category_id = ? AND supplier_id = ?;";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, productCategory.getId());
+            statement.setInt(2, supplier.getId());
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                Product product = Util.createProduct(result);
+                products.add(product);
+            }
+        } catch (Exception e) {
+            System.out.println("In ProductDaoMem getBy(supplier and category): " + e);
+        }
+        return products;
     }
 }

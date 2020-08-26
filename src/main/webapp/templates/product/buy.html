@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>Codecool Shop</title>
+
+    <!-- Bootstrap components -->
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!--Latest compiled and minified Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- End of Bootstrap components -->
+
+    <script src="/static/js/main.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
+
+    <script src="/static/js/main.js" defer></script>
+</head>
+
+<body>
+<div th:replace="header.html :: copy"></div>
+<div class="container">
+    <form action="/buy/" method="post" id="buy_form">
+        <input type="checkbox" id="payPal" name="payPal" checked>
+        <label for="payPal" class="label"><b>Payment with PayPal account</b></label>
+        <div id="payPalContainer">
+            <label class="label" for="user_name"><b>PayPal user name:</b></label><br>
+            <input type="text" id="user_name" name="user_name" required><br>
+            <label class="label" for="password"><b>PayPal user password:</b></label><br>
+            <input type="password" id="password" name="password" required><br>
+        </div>
+        <input type="checkbox" id="creditCard" name="creditCard">
+        <label for="creditCard" class="label"><b>Payment with credit card</b></label>
+        <div id="creditCardContainer" style="opacity: 0.5; pointer-events: none">
+            <label class="label" for="card_name"><b>Name:</b></label><br>
+            <input type="text" id="card_name" name="owner_name" ><br>
+            <label class="label" for="card_number"><b>Card Number:</b></label><br>
+            <input type="text" id="card_number" name="card_number" ><br>
+            <label class="label" for="exp_m"><b>Exp:</b></label><br>
+            <span><input type="number" id="exp_m" name="exp_month" max="12" min="1" >/<input type="number" id="esy_year" name="exy_year" min="20" max="99" ></span><br>
+            <label class="label" for="bank"><b>Bank name:</b></label><br>
+            <input type="text" id="bank" name="bank" ><br>
+            <label for="ccv" class="label"><b>CCV:</b></label><br>
+            <input type="password" id="ccv" name="ccv" minlength="3" maxlength="3" ><br><br>
+        </div>
+        <input type="reset" value="Reset">
+        <input type="submit" value="Buy">
+
+    </form>
+</div>
+<script>
+    const payPalCheck = document.getElementById("payPal");
+    const creditCardCheck = document.getElementById("creditCard");
+    const payPalBox = document.getElementById("payPalContainer");
+    const creditCardBox = document.getElementById("creditCardContainer");
+    const payPalName = document.getElementById("user_name");
+    const payPalPass = document.getElementById("password");
+    const creditCardName = document.getElementById("card_name");
+    const creditCardNumber = document.getElementById("card_number");
+    const creditCardExpM = document.getElementById("exp_m");
+    const creditCardExpY = document.getElementById("esy_year");
+    const creditCardBank = document.getElementById("bank");
+    const creditCardCCV = document.getElementById("ccv");
+
+    payPalCheck.onclick = function () {
+        if(payPalCheck.checked){
+            creditCardCheck.checked = false;
+            payPalBox.style.pointerEvents = "auto";
+            payPalBox.style.opacity = "1";
+            creditCardBox.style.pointerEvents = "none";
+            creditCardBox.style.opacity = "0.5";
+            payPalName.required = true;
+            payPalPass.required = true;
+            creditCardName.required = false;
+            creditCardNumber.required = false;
+            creditCardExpM.required = false;
+            creditCardExpY.required = false;
+            creditCardBank.required = false;
+            creditCardCCV.required = false;
+        } else{
+            payPalCheck.checked = true;
+        }
+    }
+
+    creditCardCheck.onclick = function () {
+        if(creditCardCheck.checked){
+            payPalCheck.checked = false;
+            payPalBox.style.pointerEvents = "none";
+            payPalBox.style.opacity = "0.5";
+            creditCardBox.style.pointerEvents = "auto";
+            creditCardBox.style.opacity = "1";
+            payPalName.required = false;
+            payPalPass.required = false;
+            creditCardName.required = true;
+            creditCardNumber.required = true;
+            creditCardExpM.required = true;
+            creditCardExpY.required = true;
+            creditCardBank.required = true;
+            creditCardCCV.required = true;
+        } else{
+            creditCardCheck.checked = true;
+        }
+    }
+
+
+</script>
+<div th:replace="shopCartModal.html :: copy"></div>
+<div th:replace="footer.html :: copy"></div>
+</body>
+</html>
